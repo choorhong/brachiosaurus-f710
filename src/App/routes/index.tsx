@@ -9,6 +9,7 @@ import ResetPassword from '../pages/auth/reset-password'
 
 import { PublicRoute, PrivateRoute } from './route'
 import ShipmentPage from '../pages/shipment'
+import ShipmentFormPage from '../pages/shipment-form'
 import BookingPage from '../pages/booking'
 import PurchaseOrderPage from '../pages/purchase-order'
 import PurchaseOrderFormPage from '../pages/purchase-order-form'
@@ -50,6 +51,10 @@ const AppRouter = () => {
 
         <PrivateRoute path='/contact'>
           <ContactPage />
+        </PrivateRoute>
+
+        <PrivateRoute path='/shipment/create'>
+          <ShipmentFormPage />
         </PrivateRoute>
 
         <PrivateRoute path='/'>
