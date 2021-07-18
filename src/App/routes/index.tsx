@@ -11,6 +11,7 @@ import { PublicRoute, PrivateRoute } from './route'
 import ShipmentPage from '../pages/shipment'
 import ShipmentFormPage from '../pages/shipment-form'
 import BookingPage from '../pages/booking'
+import BookingFormPage from '../pages/booking-form'
 import PurchaseOrderPage from '../pages/purchase-order'
 import PurchaseOrderFormPage from '../pages/purchase-order-form'
 import ContactPage from '../pages/contact'
@@ -32,6 +33,10 @@ const AppRouter = () => {
         <PublicRoute path='/auth/reset-password'>
           <ResetPassword />
         </PublicRoute>
+
+        <PrivateRoute path='/booking/create'>
+          <BookingFormPage />
+        </PrivateRoute>
 
         <PrivateRoute path='/booking'>
           <BookingPage />
