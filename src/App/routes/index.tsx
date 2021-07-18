@@ -12,6 +12,7 @@ import ShipmentPage from '../pages/shipment'
 import BookingPage from '../pages/booking'
 import PurchaseOrderPage from '../pages/purchase-order'
 import ContactPage from '../pages/contact'
+import ContactFormPage from '../pages/contact-form'
 
 const AppRouter = () => {
   return (
@@ -36,6 +37,10 @@ const AppRouter = () => {
 
         <PrivateRoute path='/purchase-order'>
           <PurchaseOrderPage />
+        </PrivateRoute>
+
+        <PrivateRoute path='/contact/create'>
+          <ContactFormPage />
         </PrivateRoute>
 
         <PrivateRoute path='/contact'>
