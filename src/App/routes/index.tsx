@@ -11,6 +11,7 @@ import { PublicRoute, PrivateRoute } from './route'
 import ShipmentPage from '../pages/shipment'
 import BookingPage from '../pages/booking'
 import PurchaseOrderPage from '../pages/purchase-order'
+import PurchaseOrderFormPage from '../pages/purchase-order-form'
 import ContactPage from '../pages/contact'
 import ContactFormPage from '../pages/contact-form'
 
@@ -33,6 +34,10 @@ const AppRouter = () => {
 
         <PrivateRoute path='/booking'>
           <BookingPage />
+        </PrivateRoute>
+
+        <PrivateRoute path='/purchase-order/create'>
+          <PurchaseOrderFormPage />
         </PrivateRoute>
 
         <PrivateRoute path='/purchase-order'>

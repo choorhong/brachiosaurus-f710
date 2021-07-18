@@ -1,13 +1,13 @@
 import React from 'react'
 import Nav from '../layout/Nav'
-import PurchaseOrder from '../components/purchaseOrder'
+import { PurchaseOrderList } from '../components/purchaseOrder'
 
-const ShipmentPage: React.FC = (props) => {
+const PurchaseOrderPage: React.FC = (props) => {
   return (
     <Nav>
-      <PurchaseOrder />
+      <PurchaseOrderList />
     </Nav>
   )
 }
 
-export default ShipmentPage
+export default PurchaseOrderPage
