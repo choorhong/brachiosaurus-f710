@@ -1,11 +1,11 @@
 import React from 'react'
 import Nav from '../layout/Nav'
-import Booking from '../components/booking'
+import { BookingList } from '../components/booking'
 
 const BookingPage: React.FC = (props) => {
   return (
     <Nav>
-      <Booking />
+      <BookingList />
     </Nav>
   )
 }

@@ -1,11 +1,11 @@
 import React from 'react'
 import Nav from '../layout/Nav'
-import Contact from '../components/contact'
+import { ContactList } from '../components/contact'
 
 const ContactPage: React.FC = (props) => {
   return (
     <Nav>
-      <Contact />
+      <ContactList />
     </Nav>
   )
 }
