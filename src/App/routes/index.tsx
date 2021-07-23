@@ -8,14 +8,14 @@ import ResetPassword from '../pages/auth/reset-password'
 // import Setting from '../pages/setting'
 
 import { PublicRoute, PrivateRoute } from './route'
-import ShipmentPage from '../pages/shipment'
-import ShipmentFormPage from '../pages/shipment-form'
-import BookingPage from '../pages/booking'
-import BookingFormPage from '../pages/booking-form'
-import PurchaseOrderPage from '../pages/purchase-order'
-import PurchaseOrderFormPage from '../pages/purchase-order-form'
-import ContactPage from '../pages/contact'
-import ContactFormPage from '../pages/contact-form'
+import ShipmentPage from '../pages/shipment/shipment'
+import CreateShipmentPage from '../pages/shipment/create'
+import BookingPage from '../pages/booking/booking'
+import CreateBookingPage from '../pages/booking/create'
+import PurchaseOrderPage from '../pages/purchase-order/purchase-order'
+import CreatePurchaseOrderPage from '../pages/purchase-order/create'
+import ContactPage from '../pages/contact/contact'
+import CreateContactPage from '../pages/contact/create'
 
 const AppRouter = () => {
   return (
@@ -35,7 +35,7 @@ const AppRouter = () => {
         </PublicRoute>
 
         <PrivateRoute path='/booking/create'>
-          <BookingFormPage />
+          <CreateBookingPage />
         </PrivateRoute>
 
         <PrivateRoute path='/booking'>
@@ -43,7 +43,7 @@ const AppRouter = () => {
         </PrivateRoute>
 
         <PrivateRoute path='/purchase-order/create'>
-          <PurchaseOrderFormPage />
+          <CreatePurchaseOrderPage />
         </PrivateRoute>
 
         <PrivateRoute path='/purchase-order'>
@@ -51,7 +51,7 @@ const AppRouter = () => {
         </PrivateRoute>
 
         <PrivateRoute path='/contact/create'>
-          <ContactFormPage />
+          <CreateContactPage />
         </PrivateRoute>
 
         <PrivateRoute path='/contact'>
@@ -59,7 +59,7 @@ const AppRouter = () => {
         </PrivateRoute>
 
         <PrivateRoute path='/shipment/create'>
-          <ShipmentFormPage />
+          <CreateShipmentPage />
         </PrivateRoute>
 
         <PrivateRoute path='/'>
