@@ -1,6 +1,6 @@
 import React from 'react'
-import Nav from '../layout/Nav'
-import { ContactList } from '../components/contact'
+import Nav from '../../layout/Nav'
+import { ContactList } from '../../components/contact'
 
 const ContactPage: React.FC = (props) => {
   return (
