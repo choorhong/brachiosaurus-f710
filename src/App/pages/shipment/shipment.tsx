@@ -1,6 +1,6 @@
 import React from 'react'
-import Nav from '../layout/Nav'
-import { ShipmentList } from '../components/shipment'
+import Nav from '../../layout/Nav'
+import { ShipmentList } from '../../components/shipment'
 
 const ShipmentPage: React.FC = (props) => {
   return (
