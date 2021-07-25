@@ -78,7 +78,7 @@ const BookingForm: React.FC = (props) => {
               noStyle
               rules={[{ required: true, message: 'ETD is required' }]}
             >
-              <DatePicker style={{ width: '40%' }} />
+              <DatePicker format='YYYY-MM-DD HH:mm' showTime={{ format: 'HH:mm' }} style={{ width: '40%' }} />
             </Form.Item>
             <Form.Item
               name={['departure', 'location']}
@@ -101,7 +101,7 @@ const BookingForm: React.FC = (props) => {
               noStyle
               rules={[{ required: true, message: 'ETA is required' }]}
             >
-              <DatePicker style={{ width: '40%' }} />
+              <DatePicker format='YYYY-MM-DD HH:mm' showTime={{ format: 'HH:mm' }} style={{ width: '40%' }} />
             </Form.Item>
             <Form.Item
               name={['arrival', 'location']}
