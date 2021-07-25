@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Button, Select } from 'antd'
 
-import { STATUS, SubmitValues } from './interfaces'
+import { STATUS, SubmitValues } from '../types/purchaseOrder'
 
 const layout = {
   labelCol: {

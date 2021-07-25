@@ -1,11 +1,11 @@
 export interface SubmitValues {
   forwarder: string;
   departure: {
-    etd: moment.Moment;
+    date: moment.Moment;
     location: string;
   };
   arrival: {
-    eta: moment.Moment;
+    date: moment.Moment;
     location: string;
   };
   vessel: string;

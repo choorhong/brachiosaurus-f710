@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Button, Select, DatePicker } from 'antd'
 
-import { SubmitValues } from './interfaces'
+import { SubmitValues } from '../types/booking'
 
 const layout = {
   labelCol: {
@@ -72,13 +72,13 @@ const BookingForm: React.FC = (props) => {
           label='Departure'
           rules={[{ required: true, message: 'Departure is required' }]}
         >
-          <Input.Group compact>
+          <Input.Group style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Form.Item
-              name={['departure', 'etd']}
+              name={['departure', 'date']}
               noStyle
               rules={[{ required: true, message: 'ETD is required' }]}
             >
-              <DatePicker style={{ width: '40%' }} />
+              <DatePicker style={{ width: '38%' }} />
             </Form.Item>
             <Form.Item
               name={['departure', 'location']}
@@ -95,13 +95,13 @@ const BookingForm: React.FC = (props) => {
           label='Arrival'
           rules={[{ required: true, message: 'Arrival is required' }]}
         >
-          <Input.Group compact>
+          <Input.Group style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Form.Item
-              name={['arrival', 'eta']}
+              name={['arrival', 'date']}
               noStyle
               rules={[{ required: true, message: 'ETA is required' }]}
             >
-              <DatePicker style={{ width: '40%' }} />
+              <DatePicker style={{ width: '38%' }} />
             </Form.Item>
             <Form.Item
               name={['arrival', 'location']}
