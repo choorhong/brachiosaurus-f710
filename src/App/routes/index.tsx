@@ -16,6 +16,8 @@ import PurchaseOrderPage from '../pages/purchase-order/purchase-order'
 import CreatePurchaseOrderPage from '../pages/purchase-order/create'
 import ContactPage from '../pages/contact/contact'
 import CreateContactPage from '../pages/contact/create'
+import VesselPage from '../pages/vessel/vessel'
+import CreateVesselPage from '../pages/vessel/create'
 
 const AppRouter = () => {
   return (
@@ -56,6 +58,14 @@ const AppRouter = () => {
 
         <PrivateRoute path='/contact'>
           <ContactPage />
+        </PrivateRoute>
+
+        <PrivateRoute path='/vessel/create'>
+          <CreateVesselPage />
+        </PrivateRoute>
+
+        <PrivateRoute path='/vessel'>
+          <VesselPage />
         </PrivateRoute>
 
         <PrivateRoute path='/shipment/create'>
