@@ -59,8 +59,8 @@ const ContactList: React.FC = () => {
       key: 'note'
     },
     {
-      title: 'Action',
-      key: 'action',
+      title: 'Actions',
+      key: 'actions',
       render: (_: any, record: SubmitValues) => {
         return (
           <>
