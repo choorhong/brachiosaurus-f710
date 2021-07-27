@@ -69,6 +69,11 @@ const PurchaseOrderList: React.FC = () => {
       render: (users: string[]) => users.join(', ')
     },
     {
+      title: 'Note/Remarks',
+      dataIndex: 'note',
+      key: 'note'
+    },
+    {
       title: 'Action',
       key: 'action',
       render: (_: any, record: SubmitValues) => {
