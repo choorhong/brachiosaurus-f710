@@ -10,3 +10,8 @@ export interface SubmitValues {
   role: ROLE;
   note?: string;
 }
+
+export interface IContactFormProps {
+  initialValues?: SubmitValues;
+  onSave?: (values: any) => void;
+}

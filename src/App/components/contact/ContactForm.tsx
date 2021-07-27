@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Button, Select } from 'antd'
 
-import { ROLE, SubmitValues } from './interfaces'
+import { IContactFormProps, ROLE, SubmitValues } from './interfaces'
 
 const layout = {
   labelCol: {
@@ -43,19 +43,19 @@ const ROLE_OPTIONS = [
   { label: 'Vendor', value: ROLE.VENDOR }
 ]
 
-const ContactForm: React.FC = (props) => {
+const ContactForm: React.FC<IContactFormProps> = ({ initialValues, onSave }) => {
   const [form] = Form.useForm()
 
   // TODO: Handle submit
-  const handleSubmit = (values: SubmitValues) => console.log(values)
+  const handleSubmit = onSave || ((values: SubmitValues) => console.log(values))
 
   return (
     <div style={{ padding: '2% 2%' }}>
       <Form
         {...layout}
         form={form}
-        initialValues={{ role: ROLE.VENDOR }}
-        name='create-contact-form'
+        initialValues={initialValues ?? { role: ROLE.VENDOR }}
+        name='contact-form'
         onFinish={handleSubmit}
       >
         <Form.Item
@@ -88,11 +88,13 @@ const ContactForm: React.FC = (props) => {
           <Input.TextArea rows={4} />
         </Form.Item>
 
-        <Form.Item {...tailLayout}>
-          <Button type='primary' htmlType='submit'>
-            Submit
-          </Button>
-        </Form.Item>
+        {!initialValues && (
+          <Form.Item {...tailLayout}>
+            <Button type='primary' htmlType='submit'>
+              Submit
+            </Button>
+          </Form.Item>
+        )}
       </Form>
     </div>
   )
