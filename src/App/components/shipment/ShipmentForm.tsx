@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Button, Select } from 'antd'
 
-import { STATUS, SubmitValues } from './interfaces'
+import { IShipmentFormProps, STATUS, SubmitValues } from './interfaces'
 
 const layout = {
   labelCol: {
@@ -45,19 +45,19 @@ const STATUS_OPTIONS = [
   { label: 'Canceled', value: STATUS.CANCELED }
 ]
 
-const ShipmentForm: React.FC = (props) => {
+const ShipmentForm: React.FC<IShipmentFormProps> = ({ initialValues, onSave }) => {
   const [form] = Form.useForm()
 
   // TODO: Handle submit
-  const handleSubmit = (values: SubmitValues) => console.log(values)
+  const handleSubmit = onSave || ((values: SubmitValues) => console.log(values))
 
   return (
     <div style={{ padding: '2% 2%' }}>
       <Form
         {...layout}
         form={form}
-        initialValues={{ status: STATUS.CREATED }}
-        name='create-shipment-form'
+        initialValues={initialValues ?? { status: STATUS.CREATED }}
+        name='shipment-form'
         onFinish={handleSubmit}
       >
         <Form.Item
@@ -111,16 +111,17 @@ const ShipmentForm: React.FC = (props) => {
           </Select>
         </Form.Item>
 
-        {/* TODO: Hide this if user is creating a new shipment */}
-        <Form.Item
-          name='status'
-          label='Status'
-          rules={[{ required: true }]}
-        >
-          <Select>
-            {STATUS_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
-          </Select>
-        </Form.Item>
+        {initialValues && (
+          <Form.Item
+            name='status'
+            label='Status'
+            rules={[{ required: true }]}
+          >
+            <Select>
+              {STATUS_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
+            </Select>
+          </Form.Item>
+        )}
 
         <Form.Item
           name='users'
@@ -151,11 +152,13 @@ const ShipmentForm: React.FC = (props) => {
           <Input.TextArea rows={4} />
         </Form.Item>
 
-        <Form.Item {...tailLayout}>
-          <Button type='primary' htmlType='submit'>
-            Submit
-          </Button>
-        </Form.Item>
+        {!initialValues && (
+          <Form.Item {...tailLayout}>
+            <Button type='primary' htmlType='submit'>
+              Submit
+            </Button>
+          </Form.Item>
+        )}
       </Form>
     </div>
   )

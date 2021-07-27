@@ -15,3 +15,8 @@ export interface SubmitValues {
   users: string[];
   note?: string;
 }
+
+export interface IShipmentFormProps {
+  initialValues?: SubmitValues;
+  onSave?: (values: any) => void;
+}
