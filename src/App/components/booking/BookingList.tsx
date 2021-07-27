@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { Button, Modal, Popconfirm, Table, Tag } from 'antd'
+import { Button, Modal, Popconfirm, Table } from 'antd'
 
 import BookingForm from './BookingForm'
 import { SubmitValues } from './interfaces'
