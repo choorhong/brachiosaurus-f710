@@ -1,82 +1,170 @@
-import React from 'react'
-import { Table, Tag, Space } from 'antd'
+import React, { useState, useMemo } from 'react'
+import { Button, Modal, Popconfirm, Table, Tag } from 'antd'
 
-const columns = [
-  {
-    title: 'Booking',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text: any) => <a>{text}</a>
-  },
-  {
-    title: 'Forwarder',
-    dataIndex: 'age',
-    key: 'age'
-  },
-  {
-    title: 'ERD / Cut off',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (tags: any) => (
-      <>
-        {tags.map((tag: any) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green'
-          if (tag === 'loser') {
-            color = 'volcano'
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          )
-        })}
-      </>
-    )
-  },
-  {
-    title: 'Vessel',
-    dataIndex: 'address',
-    key: 'address'
-  },
-  {
-    title: 'Note',
-    key: 'action',
-    render: (text: string, record: any) => (
-      <Space size='middle'>
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    )
-  }
-]
+import BookingForm from './BookingForm'
+import { SubmitValues } from './interfaces'
+import moment from 'moment'
 
 const data = [
   {
     key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York',
-    tags: ['nice', 'developer']
+    booking: 'Booking 1',
+    forwarder: 'forwarder1',
+    departure: {
+      etd: moment('2013-02-08 09:30'),
+      location: 'US'
+    },
+    arrival: {
+      eta: moment('2014-02-08 09:30'),
+      location: 'France'
+    },
+    vessel: 'Vessel 1',
+    users: ['user1'],
+    note: 'Note 1'
   },
   {
     key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No',
-    tags: ['loser']
+    booking: 'Booking 2',
+    forwarder: 'forwarder2',
+    departure: {
+      etd: moment('2015-02-08 09:30'),
+      location: 'Spain'
+    },
+    arrival: {
+      eta: moment('2016-02-08 09:30'),
+      location: 'England'
+    },
+    vessel: 'Vessel 2',
+    users: ['user2'],
+    note: 'Note 2'
   },
   {
     key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No',
-    tags: ['cool', 'teacher']
+    booking: 'Booking 3',
+    forwarder: 'forwarder3',
+    departure: {
+      etd: moment('2017-02-08 09:30'),
+      location: 'Italy'
+    },
+    arrival: {
+      eta: moment('2018-02-08 09:30'),
+      location: 'Portugal'
+    },
+    vessel: 'Vessel 3',
+    users: ['user2', 'user3'],
+    note: 'Note 3'
   }
 ]
 
 const BookingList: React.FC = () => {
+  const [values, setValues] = useState<SubmitValues | null>(null)
+
+  const columns = useMemo(() => [
+    {
+      title: 'Booking',
+      dataIndex: 'booking',
+      key: 'booking'
+    },
+    {
+      title: 'Forwarder',
+      dataIndex: 'forwarder',
+      key: 'forwarder'
+    },
+    {
+      title: 'Departure',
+      children: [
+        {
+          title: 'ETD',
+          key: 'etd',
+          dataIndex: ['departure', 'etd'],
+          render: (time: moment.Moment) => time.format('YYYY-MM-DD HH:mm').toString()
+        },
+        {
+          title: 'Location',
+          key: 'location',
+          dataIndex: ['departure', 'location']
+        }
+      ]
+    },
+    {
+      title: 'Arrival',
+      children: [
+        {
+          title: 'ETA',
+          key: 'eta',
+          dataIndex: ['arrival', 'eta'],
+          render: (time: moment.Moment) => time.format('YYYY-MM-DD HH:mm').toString()
+        },
+        {
+          title: 'Location',
+          key: 'location',
+          dataIndex: ['arrival', 'location']
+        }
+      ]
+    },
+    {
+      title: 'Vessel',
+      dataIndex: 'vessel',
+      key: 'vessel'
+    },
+    {
+      title: 'Users',
+      dataIndex: 'users',
+      key: 'users',
+      render: (users: string[]) => users.join(', ')
+    },
+    {
+      title: 'Note/Remarks',
+      dataIndex: 'note',
+      key: 'note'
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_: any, record: SubmitValues) => {
+        return (
+          <>
+            <Button onClick={() => setValues(record)} type='link' style={{ marginRight: 8, padding: 0 }}>
+              Edit
+            </Button>
+            <Popconfirm title={`Are you sure you want to delete ${record.booking}?`} onConfirm={() => console.log('delete', record.booking)}>
+              <Button type='link' style={{ padding: 0 }}>
+                Delete
+              </Button>
+            </Popconfirm>
+          </>
+        )
+      }
+    }
+  ], [])
+
+  // TODO: Handle save
+  const handleSave = (values: SubmitValues) => {
+    console.log(values)
+    setValues(null)
+  }
+
   return (
-    <Table columns={columns} dataSource={data} />
+    <>
+      <Table columns={columns} dataSource={data} />
+      {values && (
+        <Modal
+          footer={[
+            <Button key='cancel' onClick={() => setValues(null)}>
+              Cancel
+            </Button>,
+            <Button key='save' type='primary' form='booking-form' htmlType='submit'>
+              Save
+            </Button>
+          ]}
+          onCancel={() => setValues(null)}
+          title='Edit Booking'
+          visible
+        >
+          <BookingForm initialValues={values} onSave={handleSave} />
+        </Modal>
+      )}
+    </>
   )
 }
 

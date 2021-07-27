@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Button, Select, DatePicker } from 'antd'
 
-import { SubmitValues } from './interfaces'
+import { IBookingFormProps, SubmitValues } from './interfaces'
 
 const layout = {
   labelCol: {
@@ -36,18 +36,19 @@ const tailLayout = {
 
 const { Option } = Select
 
-const BookingForm: React.FC = (props) => {
+const BookingForm: React.FC<IBookingFormProps> = ({ initialValues, onSave }) => {
   const [form] = Form.useForm()
 
   // TODO: Handle submit
-  const handleSubmit = (values: SubmitValues) => console.log(values)
+  const handleSubmit = onSave || ((values: SubmitValues) => console.log(values))
 
   return (
     <div style={{ padding: '2% 2%' }}>
       <Form
         {...layout}
         form={form}
-        name='create-booking-form'
+        initialValues={initialValues}
+        name='booking-form'
         onFinish={handleSubmit}
       >
         <Form.Item
@@ -156,11 +157,13 @@ const BookingForm: React.FC = (props) => {
           <Input.TextArea rows={4} />
         </Form.Item>
 
-        <Form.Item {...tailLayout}>
-          <Button type='primary' htmlType='submit'>
-            Submit
-          </Button>
-        </Form.Item>
+        {!initialValues && (
+          <Form.Item {...tailLayout}>
+            <Button type='primary' htmlType='submit'>
+              Submit
+            </Button>
+          </Form.Item>
+        )}
       </Form>
     </div>
   )
