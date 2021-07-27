@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Button, Select } from 'antd'
 
-import { STATUS, SubmitValues } from './interfaces'
+import { IPurchaseOrderFormProps, STATUS, SubmitValues } from './interfaces'
 
 const layout = {
   labelCol: {
@@ -42,21 +42,34 @@ const STATUS_OPTIONS = [
   { label: 'Canceled', value: STATUS.CANCELED }
 ]
 
-const PurchaseOrderForm: React.FC = (props) => {
+const PurchaseOrderForm: React.FC<IPurchaseOrderFormProps> = ({ initialValues, onSave }) => {
   const [form] = Form.useForm()
 
   // TODO: Handle submit
-  const handleSubmit = (values: SubmitValues) => console.log(values)
+  const handleSubmit = onSave || ((values: SubmitValues) => console.log(values))
 
   return (
     <div style={{ padding: '2% 2%' }}>
       <Form
         {...layout}
         form={form}
-        initialValues={{ status: STATUS.CREATED }}
-        name='create-purchase-order-form'
+        initialValues={initialValues}
+        name='purchase-order-form'
         onFinish={handleSubmit}
       >
+        <Form.Item
+          name='po'
+          label='PO'
+          rules={[
+            {
+              required: true,
+              message: 'Please input your PO\'s id!'
+            }
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
         <Form.Item
           name='vendor'
           label='Vendor'
@@ -74,16 +87,17 @@ const PurchaseOrderForm: React.FC = (props) => {
           </Select>
         </Form.Item>
 
-        {/* TODO: Hide this if user is creating a new PO */}
-        <Form.Item
-          name='status'
-          label='Status'
-          rules={[{ required: true }]}
-        >
-          <Select>
-            {STATUS_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
-          </Select>
-        </Form.Item>
+        {initialValues && (
+          <Form.Item
+            name='status'
+            label='Status'
+            rules={[{ required: true }]}
+          >
+            <Select>
+              {STATUS_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
+            </Select>
+          </Form.Item>
+        )}
 
         <Form.Item
           name='users'
@@ -114,11 +128,13 @@ const PurchaseOrderForm: React.FC = (props) => {
           <Input.TextArea rows={4} />
         </Form.Item>
 
-        <Form.Item {...tailLayout}>
-          <Button type='primary' htmlType='submit'>
-            Submit
-          </Button>
-        </Form.Item>
+        {!initialValues && (
+          <Form.Item {...tailLayout}>
+            <Button type='primary' htmlType='submit'>
+              Submit
+            </Button>
+          </Form.Item>
+        )}
       </Form>
     </div>
   )
