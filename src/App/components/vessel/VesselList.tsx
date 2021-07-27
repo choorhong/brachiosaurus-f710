@@ -3,7 +3,7 @@ import { Button, Modal, Popconfirm, Table } from 'antd'
 import moment from 'moment'
 
 import VesselForm from './VesselForm'
-import { SubmitValues } from './interfaces'
+import { SubmitValues } from '../types/vessel'
 
 const data = [
   {

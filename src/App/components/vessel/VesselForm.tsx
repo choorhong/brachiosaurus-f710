@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Button, DatePicker } from 'antd'
 
-import { IVesselFormProps, SubmitValues } from './interfaces'
+import { IVesselFormProps, SubmitValues } from '../types/vessel'
 
 const layout = {
   labelCol: {

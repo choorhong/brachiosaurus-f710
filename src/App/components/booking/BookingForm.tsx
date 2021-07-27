@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Button, Select, DatePicker } from 'antd'
 
-import { IBookingFormProps, SubmitValues } from './interfaces'
+import { IBookingFormProps, SubmitValues } from '../types/booking'
 
 const layout = {
   labelCol: {
@@ -73,13 +73,13 @@ const BookingForm: React.FC<IBookingFormProps> = ({ initialValues, onSave }) => 
           label='Departure'
           rules={[{ required: true, message: 'Departure is required' }]}
         >
-          <Input.Group compact>
+          <Input.Group style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Form.Item
-              name={['departure', 'etd']}
+              name={['departure', 'date']}
               noStyle
               rules={[{ required: true, message: 'ETD is required' }]}
             >
-              <DatePicker format='YYYY-MM-DD HH:mm' showTime={{ format: 'HH:mm' }} style={{ width: '40%' }} />
+              <DatePicker format='YYYY-MM-DD HH:mm' showTime={{ format: 'HH:mm' }} style={{ width: '38%' }} />
             </Form.Item>
             <Form.Item
               name={['departure', 'location']}
@@ -96,13 +96,13 @@ const BookingForm: React.FC<IBookingFormProps> = ({ initialValues, onSave }) => 
           label='Arrival'
           rules={[{ required: true, message: 'Arrival is required' }]}
         >
-          <Input.Group compact>
+          <Input.Group style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Form.Item
-              name={['arrival', 'eta']}
+              name={['arrival', 'date']}
               noStyle
               rules={[{ required: true, message: 'ETA is required' }]}
             >
-              <DatePicker format='YYYY-MM-DD HH:mm' showTime={{ format: 'HH:mm' }} style={{ width: '40%' }} />
+              <DatePicker format='YYYY-MM-DD HH:mm' showTime={{ format: 'HH:mm' }} style={{ width: '38%' }} />
             </Form.Item>
             <Form.Item
               name={['arrival', 'location']}

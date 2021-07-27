@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { Button, Modal, Popconfirm, Table, Tag } from 'antd'
 
 import PurchaseOrderForm from './PurchaseOrderForm'
-import { STATUS, SubmitValues } from './interfaces'
+import { STATUS, SubmitValues } from '../types/purchaseOrder'
 
 const data = [
   {

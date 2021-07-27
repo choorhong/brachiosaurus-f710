@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Button, Select } from 'antd'
 
-import { IContactFormProps, ROLE, SubmitValues } from './interfaces'
+import { IContactFormProps, ROLE, SubmitValues } from '../types/contact'
 
 const layout = {
   labelCol: {

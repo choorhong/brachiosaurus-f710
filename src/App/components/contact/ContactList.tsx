@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { Button, Modal, Popconfirm, Table, Tag } from 'antd'
 
 import ContactForm from './ContactForm'
-import { ROLE, SubmitValues } from './interfaces'
+import { ROLE, SubmitValues } from '../types/contact'
 
 const data = [
   {

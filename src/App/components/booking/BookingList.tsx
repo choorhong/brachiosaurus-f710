@@ -3,7 +3,7 @@ import { Button, Modal, Popconfirm, Table } from 'antd'
 import moment from 'moment'
 
 import BookingForm from './BookingForm'
-import { SubmitValues } from './interfaces'
+import { SubmitValues } from '../types/booking'
 
 const data = [
   {
@@ -11,11 +11,11 @@ const data = [
     booking: 'Booking 1',
     forwarder: 'forwarder1',
     departure: {
-      etd: moment('2013-02-08 09:30'),
+      date: moment('2013-02-08 09:30'),
       location: 'US'
     },
     arrival: {
-      eta: moment('2014-02-08 09:30'),
+      date: moment('2014-02-08 09:30'),
       location: 'France'
     },
     vessel: 'Vessel 1',
@@ -27,11 +27,11 @@ const data = [
     booking: 'Booking 2',
     forwarder: 'forwarder2',
     departure: {
-      etd: moment('2015-02-08 09:30'),
+      date: moment('2015-02-08 09:30'),
       location: 'Spain'
     },
     arrival: {
-      eta: moment('2016-02-08 09:30'),
+      date: moment('2016-02-08 09:30'),
       location: 'England'
     },
     vessel: 'Vessel 2',
@@ -43,11 +43,11 @@ const data = [
     booking: 'Booking 3',
     forwarder: 'forwarder3',
     departure: {
-      etd: moment('2017-02-08 09:30'),
+      date: moment('2017-02-08 09:30'),
       location: 'Italy'
     },
     arrival: {
-      eta: moment('2018-02-08 09:30'),
+      date: moment('2018-02-08 09:30'),
       location: 'Portugal'
     },
     vessel: 'Vessel 3',
@@ -76,7 +76,7 @@ const BookingList: React.FC = () => {
         {
           title: 'ETD',
           key: 'etd',
-          dataIndex: ['departure', 'etd'],
+          dataIndex: ['departure', 'date'],
           render: (time: moment.Moment) => time.format('YYYY-MM-DD HH:mm').toString()
         },
         {
@@ -92,7 +92,7 @@ const BookingList: React.FC = () => {
         {
           title: 'ETA',
           key: 'eta',
-          dataIndex: ['arrival', 'eta'],
+          dataIndex: ['arrival', 'date'],
           render: (time: moment.Moment) => time.format('YYYY-MM-DD HH:mm').toString()
         },
         {
