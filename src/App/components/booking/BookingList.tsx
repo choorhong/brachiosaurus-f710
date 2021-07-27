@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react'
 import { Button, Modal, Popconfirm, Table } from 'antd'
+import moment from 'moment'
 
 import BookingForm from './BookingForm'
 import { SubmitValues } from './interfaces'
-import moment from 'moment'
 
 const data = [
   {

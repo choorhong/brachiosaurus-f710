@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Button, DatePicker } from 'antd'
 
-import { SubmitValues } from './interfaces'
+import { IVesselFormProps, SubmitValues } from './interfaces'
 
 const layout = {
   labelCol: {
@@ -34,18 +34,19 @@ const tailLayout = {
   }
 }
 
-const VesselForm: React.FC = (props) => {
+const VesselForm: React.FC<IVesselFormProps> = ({ initialValues, onSave }) => {
   const [form] = Form.useForm()
 
   // TODO: Handle submit
-  const handleSubmit = (values: SubmitValues) => console.log(values)
+  const handleSubmit = onSave || ((values: SubmitValues) => console.log(values))
 
   return (
     <div style={{ padding: '2% 2%' }}>
       <Form
         {...layout}
         form={form}
-        name='create-vessel-form'
+        initialValues={initialValues}
+        name='vessel-form'
         onFinish={handleSubmit}
       >
         <Form.Item
@@ -94,11 +95,13 @@ const VesselForm: React.FC = (props) => {
           <Input.TextArea rows={4} />
         </Form.Item>
 
-        <Form.Item {...tailLayout}>
-          <Button type='primary' htmlType='submit'>
-            Submit
-          </Button>
-        </Form.Item>
+        {!initialValues && (
+          <Form.Item {...tailLayout}>
+            <Button type='primary' htmlType='submit'>
+              Submit
+            </Button>
+          </Form.Item>
+        )}
       </Form>
     </div>
   )
