@@ -1,75 +1,43 @@
 import React from 'react'
-import { Table, Tag, Space } from 'antd'
+import { Table, Tag } from 'antd'
+import { Link } from 'react-router-dom'
 
 const columns = [
   {
     title: 'Company Name',
     dataIndex: 'name',
     key: 'name',
-    render: (text: any) => <a>{text}</a>
+    render: (text: any) => <Link to='/contact'>{text}</Link>
   },
   {
     title: 'Role',
-    dataIndex: 'age',
-    key: 'age'
-  },
-  {
-    title: 'Status',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (tags: any) => (
-      <>
-        {tags.map((tag: any) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green'
-          if (tag === 'loser') {
-            color = 'volcano'
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          )
-        })}
-      </>
-    )
-  },
-  {
-    title: 'Note',
-    key: 'action',
-    render: (text: string, record: any) => (
-      <Space size='middle'>
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
+    key: 'role',
+    dataIndex: 'roles',
+    render: (roles: any) => (
+      roles.map((role: string) => {
+        let color = 'red'
+        if (role === 'FORWARDER') {
+          color = 'geekblue'
+        }
+        if (role === 'VENDOR') {
+          color = 'green'
+        }
+        if (role === 'LOGISTICS') {
+          color = 'volcano'
+        }
+
+        return (
+          <Tag color={color} key={role}>
+            {role.toUpperCase()}
+          </Tag>
+        )
+      })
     )
   }
 ]
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer']
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser']
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher']
-  }
-]
-
-const ContactList: React.FC = () => {
+const ContactList: React.FC<{data: any[]}> = (props) => {
+  const { data } = props
   return (
     <Table columns={columns} dataSource={data} />
   )

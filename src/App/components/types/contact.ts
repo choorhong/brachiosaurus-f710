@@ -8,5 +8,5 @@ export enum ROLE {
 export interface SubmitValues {
   name: string;
   role: ROLE;
-  note?: string;
+  remarks?: string;
 }

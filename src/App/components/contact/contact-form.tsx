@@ -2,6 +2,9 @@ import React from 'react'
 import { Form, Input, Button, Select } from 'antd'
 
 import { ROLE, SubmitValues } from '../types/contact'
+import axios from 'axios'
+
+const { REACT_APP_BASE_URL: baseUrl } = process.env
 
 const layout = {
   labelCol: {
@@ -46,8 +49,23 @@ const ROLE_OPTIONS = [
 const ContactForm: React.FC = (props) => {
   const [form] = Form.useForm()
 
-  // TODO: Handle submit
-  const handleSubmit = (values: SubmitValues) => console.log(values)
+  // TODO: Handle submit for both create & edit
+  const handleSubmit = async (values: SubmitValues) => {
+    const val = {
+      ...values,
+      name: values.name.trim().toUpperCase()
+    }
+
+    try {
+      const result = await axios.post(`${baseUrl}/contact/create`, val)
+      if (result && result.status === 201 && result.data) {
+        console.log('result', result)
+        // history.push(`/${baseUrl}/contact/${result.data.id}`)
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
   return (
     <div style={{ padding: '2% 2%' }}>
@@ -82,7 +100,7 @@ const ContactForm: React.FC = (props) => {
         </Form.Item>
 
         <Form.Item
-          name='note'
+          name='remarks'
           label='Note/Remarks'
         >
           <Input.TextArea rows={4} />
