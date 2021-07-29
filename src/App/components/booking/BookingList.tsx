@@ -20,7 +20,7 @@ const data = [
     },
     vessel: 'Vessel 1',
     users: ['user1'],
-    note: 'Note 1'
+    remarks: 'Note 1'
   },
   {
     key: '2',
@@ -36,7 +36,7 @@ const data = [
     },
     vessel: 'Vessel 2',
     users: ['user2'],
-    note: 'Note 2'
+    remarks: 'Note 2'
   },
   {
     key: '3',
@@ -52,7 +52,7 @@ const data = [
     },
     vessel: 'Vessel 3',
     users: ['user2', 'user3'],
-    note: 'Note 3'
+    remarks: 'Note 3'
   }
 ]
 
@@ -115,8 +115,8 @@ const BookingList: React.FC = () => {
     },
     {
       title: 'Note/Remarks',
-      dataIndex: 'note',
-      key: 'note'
+      dataIndex: 'remarks',
+      key: 'remarks'
     },
     {
       title: 'Actions',

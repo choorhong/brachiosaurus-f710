@@ -11,21 +11,21 @@ const data = [
     name: 'Vessel 1',
     erd: moment('2017-02-08'),
     cutOff: moment('2018-02-08 09:30'),
-    note: 'New York No. 1 Lake Park'
+    remarks: 'New York No. 1 Lake Park'
   },
   {
     key: '2',
     name: 'Vessel 2',
     erd: moment('2018-02-08'),
     cutOff: moment('2019-02-08 09:30'),
-    note: 'London No. 1 Lake Park'
+    remarks: 'London No. 1 Lake Park'
   },
   {
     key: '3',
     name: 'Vessel 3',
     erd: moment('2019-02-08'),
     cutOff: moment('2020-02-08 09:30'),
-    note: 'Sidney No. 1 Lake Park'
+    remarks: 'Sidney No. 1 Lake Park'
   }
 ]
 
@@ -52,8 +52,8 @@ const VesselList: React.FC = () => {
     },
     {
       title: 'Note/Remarks',
-      dataIndex: 'note',
-      key: 'note'
+      dataIndex: 'remarks',
+      key: 'remarks'
     },
     {
       title: 'Actions',

@@ -1,53 +1,53 @@
 import React, { useState, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import { Button, Modal, Popconfirm, Table, Tag } from 'antd'
 
 import ContactForm from './ContactForm'
 import { ROLE, SubmitValues } from '../types/contact'
 
-const data = [
+const dummyData = [
   {
     key: '1',
     name: 'Company A',
     role: ROLE.FORWARDER,
-    note: 'New York No. 1 Lake Park'
+    remarks: 'New York No. 1 Lake Park'
   },
   {
     key: '2',
     name: 'Company B',
     role: ROLE.LOGISTICS,
-    note: 'London No. 1 Lake Park'
+    remarks: 'London No. 1 Lake Park'
   },
   {
     key: '3',
     name: 'Company C',
     role: ROLE.PURCHASER,
-    note: 'Sidney No. 1 Lake Park'
+    remarks: 'Sidney No. 1 Lake Park'
   }
 ]
 
-const ContactList: React.FC = () => {
+const ContactList: React.FC<{data: any[]}> = ({ data }) => {
   const [values, setValues] = useState<SubmitValues | null>(null)
 
   const columns = useMemo(() => [
     {
       title: 'Company Name',
       dataIndex: 'name',
-      key: 'name'
+      key: 'name',
+      render: (text: any) => <Link to='/contact'>{text}</Link>
     },
     {
       title: 'Role',
       dataIndex: 'role',
       key: 'role',
       render: (role: string) => {
-        let color: string
+        let color = 'red'
         if (role === ROLE.FORWARDER) {
           color = 'geekblue'
-        } else if (role === ROLE.LOGISTICS) {
+        } else if (role === ROLE.VENDOR) {
           color = 'green'
-        } else if (role === ROLE.PURCHASER) {
+        } else if (role === ROLE.LOGISTICS) {
           color = 'volcano'
-        } else {
-          color = 'purple'
         }
 
         return <Tag color={color}>{role}</Tag>
@@ -55,8 +55,8 @@ const ContactList: React.FC = () => {
     },
     {
       title: 'Note/Remarks',
-      dataIndex: 'note',
-      key: 'note'
+      dataIndex: 'remarks',
+      key: 'remarks'
     },
     {
       title: 'Actions',
@@ -86,7 +86,7 @@ const ContactList: React.FC = () => {
 
   return (
     <>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={dummyData} />
       {values && (
         <Modal
           footer={[

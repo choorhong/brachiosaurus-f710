@@ -12,7 +12,7 @@ const data = [
     booking: 'Booking 1',
     status: STATUS.CREATED,
     users: ['user1'],
-    note: 'New York No. 1 Lake Park'
+    remarks: 'New York No. 1 Lake Park'
   },
   {
     key: '2',
@@ -21,7 +21,7 @@ const data = [
     booking: 'Booking 2',
     status: STATUS.FULFILLED,
     users: ['user2'],
-    note: 'London No. 1 Lake Park'
+    remarks: 'London No. 1 Lake Park'
   },
   {
     key: '3',
@@ -30,7 +30,7 @@ const data = [
     booking: 'Booking 3',
     status: STATUS.PAID,
     users: ['user2', 'user3'],
-    note: 'Sidney No. 1 Lake Park'
+    remarks: 'Sidney No. 1 Lake Park'
   }
 ]
 
@@ -84,8 +84,8 @@ const ShipmentList: React.FC = () => {
     },
     {
       title: 'Note/Remarks',
-      dataIndex: 'note',
-      key: 'note'
+      dataIndex: 'remarks',
+      key: 'remarks'
     },
     {
       title: 'Actions',

@@ -89,7 +89,7 @@ const VesselForm: React.FC<IVesselFormProps> = ({ initialValues, onSave }) => {
         </Form.Item>
 
         <Form.Item
-          name='note'
+          name='remarks'
           label='Note/Remarks'
         >
           <Input.TextArea rows={4} />

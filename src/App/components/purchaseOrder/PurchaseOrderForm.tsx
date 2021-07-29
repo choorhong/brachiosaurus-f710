@@ -2,6 +2,9 @@ import React from 'react'
 import { Form, Input, Button, Select } from 'antd'
 
 import { IPurchaseOrderFormProps, STATUS, SubmitValues } from '../types/purchaseOrder'
+import axios from 'axios'
+
+const { REACT_APP_BASE_URL: baseUrl } = process.env
 
 const layout = {
   labelCol: {
@@ -45,8 +48,23 @@ const STATUS_OPTIONS = [
 const PurchaseOrderForm: React.FC<IPurchaseOrderFormProps> = ({ initialValues, onSave }) => {
   const [form] = Form.useForm()
 
-  // TODO: Handle submit
-  const handleSubmit = onSave || ((values: SubmitValues) => console.log(values))
+  // TODO: Handle submit for both create & edit
+  const handleSubmit = onSave || (async (values: SubmitValues) => {
+    const val = {
+      ...values,
+      purchaseOrderId: values.purchaseOrderId.trim().toUpperCase()
+    }
+    console.log('val', val)
+    try {
+      const result = await axios.post(`${baseUrl}/purchase-order/create`, val)
+      if (result && result.status === 201 && result.data) {
+        console.log('result', result)
+        // history.push(`/${baseUrl}/purchase-order/${result.data.id}`)
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  })
 
   return (
     <div style={{ padding: '2% 2%' }}>
@@ -58,12 +76,12 @@ const PurchaseOrderForm: React.FC<IPurchaseOrderFormProps> = ({ initialValues, o
         onFinish={handleSubmit}
       >
         <Form.Item
-          name='po'
-          label='PO'
+          name='purchaseOrderId'
+          label='Purchase Order'
           rules={[
             {
               required: true,
-              message: 'Please input your PO\'s id!'
+              message: 'Please insert the PO number!'
             }
           ]}
         >
@@ -71,7 +89,7 @@ const PurchaseOrderForm: React.FC<IPurchaseOrderFormProps> = ({ initialValues, o
         </Form.Item>
 
         <Form.Item
-          name='vendor'
+          name='vendorId'
           label='Vendor'
           rules={[
             {
@@ -99,7 +117,7 @@ const PurchaseOrderForm: React.FC<IPurchaseOrderFormProps> = ({ initialValues, o
           </Form.Item>
         )}
 
-        <Form.Item
+        {/* <Form.Item
           name='users'
           label='Users'
           rules={[
@@ -109,7 +127,7 @@ const PurchaseOrderForm: React.FC<IPurchaseOrderFormProps> = ({ initialValues, o
             }
           ]}
         >
-          {/* TODO: Fix this when the actual user list is available */}
+          TODO: Fix this when the actual user list is available
           <Select
             allowClear
             mode='multiple'
@@ -119,10 +137,10 @@ const PurchaseOrderForm: React.FC<IPurchaseOrderFormProps> = ({ initialValues, o
             <Option value='user2'>User 2</Option>
             <Option value='user3'>User 3</Option>
           </Select>
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item
-          name='note'
+          name='remarks'
           label='Note/Remarks'
         >
           <Input.TextArea rows={4} />

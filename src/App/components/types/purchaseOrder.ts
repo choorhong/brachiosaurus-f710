@@ -5,11 +5,11 @@ export enum STATUS {
 }
 
 export interface SubmitValues {
-  po: string;
-  vendor: string;
+  purchaseOrderId: string;
+  vendorId: string;
   status: string;
   users: string[];
-  note?: string;
+  remarks?: string;
 }
 
 export interface IPurchaseOrderFormProps {

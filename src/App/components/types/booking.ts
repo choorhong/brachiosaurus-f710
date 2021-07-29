@@ -11,7 +11,7 @@ export interface SubmitValues {
   };
   vessel: string;
   users: string[];
-  note?: string;
+  remarks?: string;
 }
 
 export interface IBookingFormProps {
