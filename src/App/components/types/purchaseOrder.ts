@@ -5,8 +5,9 @@ export enum STATUS {
 }
 
 export interface SubmitValues {
-  vendor: string;
+  purchaseOrderId: string;
+  vendorId: string;
   status: string;
   users: string[];
-  note?: string;
+  remarks?: string;
 }
