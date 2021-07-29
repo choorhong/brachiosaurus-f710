@@ -2,6 +2,10 @@ import React from 'react'
 import { Form, Input, Button, Select, DatePicker } from 'antd'
 
 import { SubmitValues } from '../types/booking'
+import { PlusOutlined } from '@ant-design/icons'
+import axios from 'axios'
+
+const { REACT_APP_BASE_URL: baseUrl } = process.env
 
 const layout = {
   labelCol: {
@@ -40,7 +44,24 @@ const BookingForm: React.FC = (props) => {
   const [form] = Form.useForm()
 
   // TODO: Handle submit
-  const handleSubmit = (values: SubmitValues) => console.log(values)
+  const handleSubmit = async (values: SubmitValues) => {
+    const val = {
+      ...values,
+      name: values.bookingId.trim().toUpperCase()
+    }
+
+    try {
+      const result = await axios.post(`${baseUrl}/booking/create`, val)
+      if (result && result.status === 201 && result.data) {
+        console.log('result', result)
+        // history.push(`/${baseUrl}/booking/${result.data.id}`)
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+
+    console.log(values)
+  }
 
   return (
     <div style={{ padding: '2% 2%' }}>
@@ -50,6 +71,19 @@ const BookingForm: React.FC = (props) => {
         name='create-booking-form'
         onFinish={handleSubmit}
       >
+        <Form.Item
+          name='bookingId'
+          label='Booking'
+          rules={[
+            {
+              required: true,
+              message: 'Booking number needed'
+            }
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
         <Form.Item
           name='forwarder'
           label='Forwarder'
@@ -85,7 +119,7 @@ const BookingForm: React.FC = (props) => {
               noStyle
               rules={[{ required: true, message: 'Location is required' }]}
             >
-              <Input style={{ width: '60%' }} placeholder='Input location' />
+              <Input style={{ width: '60%' }} placeholder='Departure Location' />
             </Form.Item>
           </Input.Group>
         </Form.Item>
@@ -108,26 +142,36 @@ const BookingForm: React.FC = (props) => {
               noStyle
               rules={[{ required: true, message: 'Location is required' }]}
             >
-              <Input style={{ width: '60%' }} placeholder='Input location' />
+              <Input style={{ width: '60%' }} placeholder='Arrival Location' />
             </Form.Item>
           </Input.Group>
         </Form.Item>
 
         <Form.Item
-          name='vessel'
           label='Vessel'
-          rules={[
-            {
-              required: true,
-              message: 'Please select your booking!'
-            }
-          ]}
+          required
         >
-          {/* TODO: Create a pop up form for vessel? */}
-          <Input />
+          <Input.Group style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Form.Item
+              name='vessel'
+              label='Vessel'
+              noStyle
+              rules={[
+                {
+                  required: true,
+                  message: 'Please select your booking!'
+                }
+              ]}
+            >
+              {/* TODO: Create a pop up form for vessel? */}
+              <Input style={{ width: '90%' }} />
+            </Form.Item>
+
+            <Button icon={<PlusOutlined />} />
+          </Input.Group>
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           name='users'
           label='Users'
           rules={[
@@ -137,7 +181,7 @@ const BookingForm: React.FC = (props) => {
             }
           ]}
         >
-          {/* TODO: Fix this when the actual user list is available */}
+          TODO: Fix this when the actual user list is available
           <Select
             allowClear
             mode='multiple'
@@ -147,10 +191,19 @@ const BookingForm: React.FC = (props) => {
             <Option value='user2'>User 2</Option>
             <Option value='user3'>User 3</Option>
           </Select>
+        </Form.Item> */}
+
+        <Form.Item
+          name='slots'
+          label='Spaces'
+          rules={[{ required: true, message: 'Number of booking spaces is required' }]}
+
+        >
+          <Input />
         </Form.Item>
 
         <Form.Item
-          name='note'
+          name='remarks'
           label='Note/Remarks'
         >
           <Input.TextArea rows={4} />

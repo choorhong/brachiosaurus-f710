@@ -1,82 +1,52 @@
 import React from 'react'
-import { Table, Tag, Space } from 'antd'
+import { Table, Tag } from 'antd'
+import { Link } from 'react-router-dom'
+import moment from 'moment'
 
 const columns = [
   {
     title: 'Booking',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text: any) => <a>{text}</a>
+    dataIndex: 'bookingId',
+    key: 'booking',
+    render: (text: string) => <Link to='/booking'>{text}</Link>
   },
   {
     title: 'Forwarder',
-    dataIndex: 'age',
-    key: 'age'
+    dataIndex: 'forwarder',
+    key: 'forwarder',
+    render: (forwarder: any) => <Link to='/booking'>{forwarder.name}</Link>
+
   },
   {
     title: 'ERD / Cut off',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (tags: any) => (
-      <>
-        {tags.map((tag: any) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green'
-          if (tag === 'loser') {
-            color = 'volcano'
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          )
-        })}
-      </>
-    )
+    key: 'dates',
+    // dataIndex: 'vessel',
+    render: (booking: any) =>
+      (
+        <>
+          <Tag color='green'>
+            {moment(booking.vessel.earliestReturningDate).format('YYYY-MM-DD')}
+          </Tag>
+          <Tag color='red'>
+            {moment(booking.vessel.cutOff).format('YYYY-MM-DD')}
+          </Tag>
+        </>
+
+      )
   },
   {
     title: 'Vessel',
-    dataIndex: 'address',
-    key: 'address'
-  },
-  {
-    title: 'Note',
-    key: 'action',
-    render: (text: string, record: any) => (
-      <Space size='middle'>
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    )
+    dataIndex: 'vessel',
+    key: 'vessel',
+    render: (vessel: any) => <Link to='/booking'>{vessel.name}</Link>
+
   }
 ]
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York',
-    tags: ['nice', 'developer']
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No',
-    tags: ['loser']
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No',
-    tags: ['cool', 'teacher']
-  }
-]
-
-const BookingList: React.FC = () => {
+const BookingList: React.FC<{data: any[]}> = (props) => {
+  const { data } = props
   return (
-    <Table columns={columns} dataSource={data} />
+    <Table columns={columns} dataSource={data} rowKey={(booking) => booking.id} />
   )
 }
 

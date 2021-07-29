@@ -1,4 +1,5 @@
 export interface SubmitValues {
+  bookingId: string;
   forwarder: string;
   departure: {
     date: moment.Moment;
