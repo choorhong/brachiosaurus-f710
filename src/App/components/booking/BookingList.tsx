@@ -1,112 +1,108 @@
 import React, { useState, useMemo } from 'react'
-import { Button, Modal, Popconfirm, Table } from 'antd'
+import { Button, Modal, Tag, Table } from 'antd'
 import moment from 'moment'
 
 import BookingForm from './BookingForm'
 import { SubmitValues } from '../types/booking'
+import { VesselForm } from '../vessel'
+import { Link } from 'react-router-dom'
 
-const data = [
-  {
-    key: '1',
-    booking: 'Booking 1',
-    forwarder: 'forwarder1',
-    departure: {
-      date: moment('2013-02-08 09:30'),
-      location: 'US'
-    },
-    arrival: {
-      date: moment('2014-02-08 09:30'),
-      location: 'France'
-    },
-    vessel: 'Vessel 1',
-    users: ['user1'],
-    remarks: 'Note 1'
-  },
-  {
-    key: '2',
-    booking: 'Booking 2',
-    forwarder: 'forwarder2',
-    departure: {
-      date: moment('2015-02-08 09:30'),
-      location: 'Spain'
-    },
-    arrival: {
-      date: moment('2016-02-08 09:30'),
-      location: 'England'
-    },
-    vessel: 'Vessel 2',
-    users: ['user2'],
-    remarks: 'Note 2'
-  },
-  {
-    key: '3',
-    booking: 'Booking 3',
-    forwarder: 'forwarder3',
-    departure: {
-      date: moment('2017-02-08 09:30'),
-      location: 'Italy'
-    },
-    arrival: {
-      date: moment('2018-02-08 09:30'),
-      location: 'Portugal'
-    },
-    vessel: 'Vessel 3',
-    users: ['user2', 'user3'],
-    remarks: 'Note 3'
-  }
-]
-
-const BookingList: React.FC = () => {
+const BookingList: React.FC<{data: any[]}> = ({ data }) => {
   const [values, setValues] = useState<SubmitValues | null>(null)
 
   const columns = useMemo(() => [
     {
       title: 'Booking',
-      dataIndex: 'booking',
-      key: 'booking'
+      dataIndex: 'bookingId',
+      key: 'booking',
+      render: (text: string) => <Link to='/booking'>{text}</Link>
     },
     {
       title: 'Forwarder',
       dataIndex: 'forwarder',
-      key: 'forwarder'
+      key: 'forwarder',
+      render: (forwarder: Record<any, any>) => forwarder.name
     },
     {
-      title: 'Departure',
+      title: 'Dates/Locations',
       children: [
         {
-          title: 'ETD',
-          key: 'etd',
-          dataIndex: ['departure', 'date'],
-          render: (time: moment.Moment) => time.format('YYYY-MM-DD HH:mm').toString()
+          title: 'Departure',
+          key: 'departure',
+          dataIndex: 'departure',
+          render: (departure: Record<any, any>) => (
+            <>
+              <Tag color='geekblue'>
+                {moment(departure.date).format('YYYY-MM-DD')}
+              </Tag>
+              <Tag color='volcano'>
+                {departure.location}
+              </Tag>
+            </>
+          )
         },
         {
-          title: 'Location',
-          key: 'location',
-          dataIndex: ['departure', 'location']
+          title: 'Arrival',
+          key: 'arrival',
+          dataIndex: 'arrival',
+          render: (arrival: Record<any, any>) => (
+            <>
+              <Tag color='geekblue'>
+                {moment(arrival.date).format('YYYY-MM-DD')}
+              </Tag>
+              <Tag color='volcano'>
+                {arrival.location}
+              </Tag>
+            </>
+          )
+
         }
       ]
     },
+    // {
+    //   title: 'Arrival',
+    //   children: [
+    //     {
+    //       title: 'ETA',
+    //       key: 'eta',
+    //       dataIndex: ['arrival', 'date'],
+    //       render: (time: moment.Moment) => time.format('YYYY-MM-DD HH:mm').toString()
+    //     },
+    //     {
+    //       title: 'Location',
+    //       key: 'location',
+    //       dataIndex: ['arrival', 'location']
+    //     }
+    //   ]
+    // },
+    // {
+    //   title: 'Vessel',
+    //   dataIndex: 'vessel',
+    //   key: 'vessel',
+    //   render: (vessel: Record<any, any>) => vessel.name
+
+    // },
     {
-      title: 'Arrival',
-      children: [
-        {
-          title: 'ETA',
-          key: 'eta',
-          dataIndex: ['arrival', 'date'],
-          render: (time: moment.Moment) => time.format('YYYY-MM-DD HH:mm').toString()
-        },
-        {
-          title: 'Location',
-          key: 'location',
-          dataIndex: ['arrival', 'location']
-        }
-      ]
-    },
-    {
-      title: 'Vessel',
-      dataIndex: 'vessel',
-      key: 'vessel'
+      title: 'ERD / Cut off',
+      key: 'dates',
+      // dataIndex: 'vessel',
+      render: (booking: any) =>
+        (
+          <>
+            <Tag color='cyan'>
+              <Link to='/booking'>{booking.vessel.name}</Link>
+            </Tag>
+
+            <Tag color='green'>
+              {moment(booking.vessel.earliestReturningDate).format('YYYY-MM-DD')}
+            </Tag>
+            <Tag color='red'>
+              {moment(booking.vessel.cutOff).format('YYYY-MM-DD')}
+            </Tag>
+          </>
+        )
     }
+
     // {
     //   title: 'Users',
     //   dataIndex: 'users',
@@ -146,7 +142,7 @@ const BookingList: React.FC = () => {
 
   return (
     <>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data} bordered />
       {values && (
         <Modal
           footer={[

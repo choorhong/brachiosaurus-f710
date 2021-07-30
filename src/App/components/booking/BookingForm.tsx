@@ -2,6 +2,8 @@ import React from 'react'
 import { Form, Input, Button, Select, DatePicker } from 'antd'
 
 import { IBookingFormProps, SubmitValues } from '../types/booking'
+import { PlusOutlined } from '@ant-design/icons'
+import { useHistory } from 'react-router-dom'
 
 const layout = {
   labelCol: {
@@ -38,6 +40,7 @@ const { Option } = Select
 
 const BookingForm: React.FC<IBookingFormProps> = ({ initialValues, onSave }) => {
   const [form] = Form.useForm()
+  const history = useHistory()
 
   // TODO: Handle submit
   const handleSubmit = onSave || ((values: SubmitValues) => console.log(values))
@@ -115,20 +118,29 @@ const BookingForm: React.FC<IBookingFormProps> = ({ initialValues, onSave }) => 
         </Form.Item>
 
         <Form.Item
-          name='vessel'
           label='Vessel'
-          rules={[
-            {
-              required: true,
-              message: 'Please select your booking!'
-            }
-          ]}
+          required
         >
-          {/* TODO: Create a pop up form for vessel? */}
-          <Input />
-        </Form.Item>
+          <Input.Group style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Form.Item
+              name='vessel'
+              label='Vessel'
+              noStyle
+              rules={[
+                {
+                  required: true,
+                  message: 'Please select your booking!'
+                }
+              ]}
+            >
+              {/* TODO: Create a pop up form for vessel? */}
+              <Input style={{ width: '90%' }} />
+            </Form.Item>
 
-        <Form.Item
+            <Button icon={<PlusOutlined />} onClick={() => history.push('/vessel/create')} />
+          </Input.Group>
+        </Form.Item>
+        {/* <Form.Item
           name='users'
           label='Users'
           rules={[
@@ -138,7 +150,7 @@ const BookingForm: React.FC<IBookingFormProps> = ({ initialValues, onSave }) => 
             }
           ]}
         >
-          {/* TODO: Fix this when the actual user list is available */}
+          TODO: Fix this when the actual user list is available
           <Select
             allowClear
             mode='multiple'
@@ -148,7 +160,7 @@ const BookingForm: React.FC<IBookingFormProps> = ({ initialValues, onSave }) => 
             <Option value='user2'>User 2</Option>
             <Option value='user3'>User 3</Option>
           </Select>
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item
           name='remarks'
