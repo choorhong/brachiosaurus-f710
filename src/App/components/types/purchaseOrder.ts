@@ -11,3 +11,8 @@ export interface SubmitValues {
   users: string[];
   remarks?: string;
 }
+
+export interface IPurchaseOrderFormProps {
+  initialValues?: SubmitValues;
+  onSave?: (values: any) => void;
+}

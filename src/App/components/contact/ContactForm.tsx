@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Button, Select } from 'antd'
 
-import { ROLE, SubmitValues } from '../types/contact'
+import { IContactFormProps, ROLE, SubmitValues } from '../types/contact'
 import axios from 'axios'
 
 const { REACT_APP_BASE_URL: baseUrl } = process.env
@@ -46,11 +46,11 @@ const ROLE_OPTIONS = [
   { label: 'Vendor', value: ROLE.VENDOR }
 ]
 
-const ContactForm: React.FC = (props) => {
+const ContactForm: React.FC<IContactFormProps> = ({ initialValues, onSave }) => {
   const [form] = Form.useForm()
 
   // TODO: Handle submit for both create & edit
-  const handleSubmit = async (values: SubmitValues) => {
+  const handleSubmit = onSave || (async (values: SubmitValues) => {
     const val = {
       ...values,
       name: values.name.trim().toUpperCase()
@@ -65,15 +65,15 @@ const ContactForm: React.FC = (props) => {
     } catch (error) {
       console.log('error', error)
     }
-  }
+  })
 
   return (
     <div style={{ padding: '2% 2%' }}>
       <Form
         {...layout}
         form={form}
-        initialValues={{ role: ROLE.VENDOR }}
-        name='create-contact-form'
+        initialValues={initialValues ?? { role: ROLE.VENDOR }}
+        name='contact-form'
         onFinish={handleSubmit}
       >
         <Form.Item
@@ -106,11 +106,13 @@ const ContactForm: React.FC = (props) => {
           <Input.TextArea rows={4} />
         </Form.Item>
 
-        <Form.Item {...tailLayout}>
-          <Button type='primary' htmlType='submit'>
-            Submit
-          </Button>
-        </Form.Item>
+        {!initialValues && (
+          <Form.Item {...tailLayout}>
+            <Button type='primary' htmlType='submit'>
+              Submit
+            </Button>
+          </Form.Item>
+        )}
       </Form>
     </div>
   )

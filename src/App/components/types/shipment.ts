@@ -13,5 +13,10 @@ export interface SubmitValues {
   booking: string;
   status: string;
   users: string[];
-  note?: string;
+  remarks?: string;
+}
+
+export interface IShipmentFormProps {
+  initialValues?: SubmitValues;
+  onSave?: (values: any) => void;
 }

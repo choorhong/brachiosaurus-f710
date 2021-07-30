@@ -1,2 +1,2 @@
-export { default as ShipmentForm } from './shipment-form'
-export { default as ShipmentList } from './shipment-list'
+export { default as ShipmentForm } from './ShipmentForm'
+export { default as ShipmentList } from './ShipmentList'

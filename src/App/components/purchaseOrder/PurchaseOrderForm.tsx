@@ -1,7 +1,10 @@
 import React from 'react'
 import { Form, Input, Button, Select } from 'antd'
 
-import { STATUS, SubmitValues } from '../types/shipment'
+import { IPurchaseOrderFormProps, STATUS, SubmitValues } from '../types/purchaseOrder'
+import axios from 'axios'
+
+const { REACT_APP_BASE_URL: baseUrl } = process.env
 
 const layout = {
   labelCol: {
@@ -38,47 +41,55 @@ const { Option } = Select
 
 const STATUS_OPTIONS = [
   { label: 'Created', value: STATUS.CREATED },
-  { label: 'Scheduled', value: STATUS.SCHEDULED },
-  { label: 'Shipped', value: STATUS.SHIPPED },
   { label: 'Fulfilled', value: STATUS.FULFILLED },
-  { label: 'Paid', value: STATUS.PAID },
   { label: 'Canceled', value: STATUS.CANCELED }
 ]
 
-const ShipmentForm: React.FC = (props) => {
+const PurchaseOrderForm: React.FC<IPurchaseOrderFormProps> = ({ initialValues, onSave }) => {
   const [form] = Form.useForm()
 
-  // TODO: Handle submit
-  const handleSubmit = (values: SubmitValues) => console.log(values)
+  // TODO: Handle submit for both create & edit
+  const handleSubmit = onSave || (async (values: SubmitValues) => {
+    const val = {
+      ...values,
+      purchaseOrderId: values.purchaseOrderId.trim().toUpperCase()
+    }
+    console.log('val', val)
+    try {
+      const result = await axios.post(`${baseUrl}/purchase-order/create`, val)
+      if (result && result.status === 201 && result.data) {
+        console.log('result', result)
+        // history.push(`/${baseUrl}/purchase-order/${result.data.id}`)
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  })
 
   return (
     <div style={{ padding: '2% 2%' }}>
       <Form
         {...layout}
         form={form}
-        initialValues={{ status: STATUS.CREATED }}
-        name='create-shipment-form'
+        initialValues={initialValues}
+        name='purchase-order-form'
         onFinish={handleSubmit}
       >
         <Form.Item
-          name='po'
+          name='purchaseOrderId'
           label='Purchase Order'
           rules={[
             {
               required: true,
-              message: 'Please select your purchase order!'
+              message: 'Please insert the PO number!'
             }
           ]}
         >
-          {/* TODO: Fix this when the actual PO list is available */}
-          <Select placeholder='Please select a purchase order'>
-            <Option value='po1'>PO 1</Option>
-            <Option value='po2'>PO 2</Option>
-          </Select>
+          <Input />
         </Form.Item>
 
         <Form.Item
-          name='vendor'
+          name='vendorId'
           label='Vendor'
           rules={[
             {
@@ -94,35 +105,19 @@ const ShipmentForm: React.FC = (props) => {
           </Select>
         </Form.Item>
 
-        <Form.Item
-          name='booking'
-          label='Booking'
-          rules={[
-            {
-              required: true,
-              message: 'Please select your booking!'
-            }
-          ]}
-        >
-          {/* TODO: Fix this when the actual booking list is available */}
-          <Select placeholder='Please select a booking'>
-            <Option value='booking1'>Booking 1</Option>
-            <Option value='booking2'>Booking 2</Option>
-          </Select>
-        </Form.Item>
+        {initialValues && (
+          <Form.Item
+            name='status'
+            label='Status'
+            rules={[{ required: true }]}
+          >
+            <Select>
+              {STATUS_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
+            </Select>
+          </Form.Item>
+        )}
 
-        {/* TODO: Hide this if user is creating a new shipment */}
-        <Form.Item
-          name='status'
-          label='Status'
-          rules={[{ required: true }]}
-        >
-          <Select>
-            {STATUS_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
-          </Select>
-        </Form.Item>
-
-        <Form.Item
+        {/* <Form.Item
           name='users'
           label='Users'
           rules={[
@@ -132,7 +127,7 @@ const ShipmentForm: React.FC = (props) => {
             }
           ]}
         >
-          {/* TODO: Fix this when the actual user list is available */}
+          TODO: Fix this when the actual user list is available
           <Select
             allowClear
             mode='multiple'
@@ -142,23 +137,25 @@ const ShipmentForm: React.FC = (props) => {
             <Option value='user2'>User 2</Option>
             <Option value='user3'>User 3</Option>
           </Select>
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item
-          name='note'
+          name='remarks'
           label='Note/Remarks'
         >
           <Input.TextArea rows={4} />
         </Form.Item>
 
-        <Form.Item {...tailLayout}>
-          <Button type='primary' htmlType='submit'>
-            Submit
-          </Button>
-        </Form.Item>
+        {!initialValues && (
+          <Form.Item {...tailLayout}>
+            <Button type='primary' htmlType='submit'>
+              Submit
+            </Button>
+          </Form.Item>
+        )}
       </Form>
     </div>
   )
 }
 
-export default ShipmentForm
+export default PurchaseOrderForm
