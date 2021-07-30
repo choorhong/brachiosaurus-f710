@@ -5,33 +5,6 @@ import { Button, Modal, Popconfirm, Table, Tag } from 'antd'
 import { STATUS, SubmitValues } from '../types/purchaseOrder'
 import PurchaseOrderForm from './PurchaseOrderForm'
 
-const dummyData = [
-  {
-    key: '1',
-    purchaseOrderId: 'PO 1',
-    vendorId: 'Vendor 1',
-    status: STATUS.CREATED,
-    users: ['user1'],
-    remarks: 'Note 1'
-  },
-  {
-    key: '2',
-    purchaseOrderId: 'PO 2',
-    vendorId: 'Vendor 2',
-    status: STATUS.FULFILLED,
-    users: ['user1', 'user2'],
-    remarks: 'Note 2'
-  },
-  {
-    key: '3',
-    purchaseOrderId: 'PO 3',
-    vendorId: 'Vendor 3',
-    status: STATUS.CANCELED,
-    users: ['user2', 'user3'],
-    remarks: 'Note 3'
-  }
-]
-
 const PurchaseOrderList: React.FC<{data: any[]}> = ({ data }) => {
   const [values, setValues] = useState<SubmitValues | null>(null)
 
@@ -44,8 +17,8 @@ const PurchaseOrderList: React.FC<{data: any[]}> = ({ data }) => {
     },
     {
       title: 'Vendor',
-      dataIndex: 'vendorId',
-      key: 'vendorId',
+      dataIndex: 'vendor',
+      key: 'vendor',
       render: (vendor: Record<any, any>) => vendor.name
     },
     {
@@ -104,7 +77,7 @@ const PurchaseOrderList: React.FC<{data: any[]}> = ({ data }) => {
 
   return (
     <>
-      <Table columns={columns} dataSource={dummyData} />
+      <Table columns={columns} dataSource={data} />
       {values && (
         <Modal
           footer={[
