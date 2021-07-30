@@ -64,36 +64,36 @@ const PurchaseOrderList: React.FC<{data: any[]}> = ({ data }) => {
 
         return <Tag color={color}>{status}</Tag>
       }
-    },
-    {
-      title: 'Users',
-      dataIndex: 'users',
-      key: 'users',
-      render: (users: string[]) => users.join(', ')
-    },
-    {
-      title: 'Note/Remarks',
-      dataIndex: 'remarks',
-      key: 'remarks'
-    },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: (_: any, record: SubmitValues) => {
-        return (
-          <>
-            <Button onClick={() => setValues(record)} type='link' style={{ marginRight: 8, padding: 0 }}>
-              Edit
-            </Button>
-            <Popconfirm title={`Are you sure you want to delete ${record.purchaseOrderId}?`} onConfirm={() => console.log('delete', record.purchaseOrderId)}>
-              <Button type='link' style={{ padding: 0 }}>
-                Delete
-              </Button>
-            </Popconfirm>
-          </>
-        )
-      }
     }
+    // {
+    //   title: 'Users',
+    //   dataIndex: 'users',
+    //   key: 'users',
+    //   render: (users: string[]) => users.join(', ')
+    // },
+    // {
+    //   title: 'Note/Remarks',
+    //   dataIndex: 'remarks',
+    //   key: 'remarks'
+    // },
+    // {
+    //   title: 'Actions',
+    //   key: 'actions',
+    //   render: (_: any, record: SubmitValues) => {
+    //     return (
+    //       <>
+    //         <Button onClick={() => setValues(record)} type='link' style={{ marginRight: 8, padding: 0 }}>
+    //           Edit
+    //         </Button>
+    //         <Popconfirm title={`Are you sure you want to delete ${record.purchaseOrderId}?`} onConfirm={() => console.log('delete', record.purchaseOrderId)}>
+    //           <Button type='link' style={{ padding: 0 }}>
+    //             Delete
+    //           </Button>
+    //         </Popconfirm>
+    //       </>
+    //     )
+    //   }
+    // }
   ], [])
 
   // TODO: Handle save

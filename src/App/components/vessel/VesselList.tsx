@@ -49,30 +49,30 @@ const VesselList: React.FC = () => {
       key: 'cutOff',
       dataIndex: 'cutOff',
       render: (time: moment.Moment) => time.format('YYYY-MM-DD HH:mm').toString()
-    },
-    {
-      title: 'Note/Remarks',
-      dataIndex: 'remarks',
-      key: 'remarks'
-    },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: (_: any, record: SubmitValues) => {
-        return (
-          <>
-            <Button onClick={() => setValues(record)} type='link' style={{ marginRight: 8, padding: 0 }}>
-              Edit
-            </Button>
-            <Popconfirm title={`Are you sure you want to delete ${record.name}?`} onConfirm={() => console.log('delete', record.name)}>
-              <Button type='link' style={{ padding: 0 }}>
-                Delete
-              </Button>
-            </Popconfirm>
-          </>
-        )
-      }
     }
+    // {
+    //   title: 'Note/Remarks',
+    //   dataIndex: 'remarks',
+    //   key: 'remarks'
+    // },
+    // {
+    //   title: 'Actions',
+    //   key: 'actions',
+    //   render: (_: any, record: SubmitValues) => {
+    //     return (
+    //       <>
+    //         <Button onClick={() => setValues(record)} type='link' style={{ marginRight: 8, padding: 0 }}>
+    //           Edit
+    //         </Button>
+    //         <Popconfirm title={`Are you sure you want to delete ${record.name}?`} onConfirm={() => console.log('delete', record.name)}>
+    //           <Button type='link' style={{ padding: 0 }}>
+    //             Delete
+    //           </Button>
+    //         </Popconfirm>
+    //       </>
+    //     )
+    //   }
+    // }
   ], [])
 
   // TODO: Handle save
