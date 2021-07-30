@@ -14,7 +14,7 @@ const VesselList: React.FC<{data: any[]}> = ({ data }) => {
       title: 'Vessel Name',
       dataIndex: 'name',
       key: 'name',
-      render: (text: string) => <Link to='/vessel'>{text}</Link>
+      render: (text: string, data: Record<any, any>) => <Link to={`/vessel/${data.id}`}>{text}</Link>
     },
     {
       title: 'ERD',
@@ -62,7 +62,7 @@ const VesselList: React.FC<{data: any[]}> = ({ data }) => {
 
   return (
     <>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data} rowKey={(data) => data.id} />
       {values && (
         <Modal
           footer={[

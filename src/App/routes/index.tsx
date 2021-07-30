@@ -10,13 +10,21 @@ import ResetPassword from '../pages/auth/reset-password'
 import { PublicRoute, PrivateRoute } from './route'
 import ShipmentPage from '../pages/shipment/shipment'
 import CreateShipmentPage from '../pages/shipment/create'
+
 import BookingPage from '../pages/booking/booking'
+import ViewBookingPage from '../pages/booking/view'
 import CreateBookingPage from '../pages/booking/create'
+
 import PurchaseOrderPage from '../pages/purchase-order/purchase-order'
+import ViewPurchaseOrderPage from '../pages/purchase-order/view'
 import CreatePurchaseOrderPage from '../pages/purchase-order/create'
+
 import ContactPage from '../pages/contact/contact'
+import ViewContactPage from '../pages/contact/view'
 import CreateContactPage from '../pages/contact/create'
+
 import VesselPage from '../pages/vessel/vessel'
+import ViewVesselPage from '../pages/vessel/view'
 import CreateVesselPage from '../pages/vessel/create'
 
 const AppRouter = () => {
@@ -40,12 +48,20 @@ const AppRouter = () => {
           <CreateBookingPage />
         </PrivateRoute>
 
+        <PrivateRoute path='/booking/:id'>
+          <ViewBookingPage />
+        </PrivateRoute>
+
         <PrivateRoute path='/booking'>
           <BookingPage />
         </PrivateRoute>
 
         <PrivateRoute path='/purchase-order/create'>
           <CreatePurchaseOrderPage />
+        </PrivateRoute>
+
+        <PrivateRoute path='/purchase-order/:id'>
+          <ViewPurchaseOrderPage />
         </PrivateRoute>
 
         <PrivateRoute path='/purchase-order'>
@@ -56,12 +72,20 @@ const AppRouter = () => {
           <CreateContactPage />
         </PrivateRoute>
 
+        <PrivateRoute path='/contact/:id'>
+          <ViewContactPage />
+        </PrivateRoute>
+
         <PrivateRoute path='/contact'>
           <ContactPage />
         </PrivateRoute>
 
         <PrivateRoute path='/vessel/create'>
           <CreateVesselPage />
+        </PrivateRoute>
+
+        <PrivateRoute path='/vessel/:id'>
+          <ViewVesselPage />
         </PrivateRoute>
 
         <PrivateRoute path='/vessel'>

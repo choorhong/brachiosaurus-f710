@@ -13,7 +13,7 @@ const ContactList: React.FC<{data: any[]}> = ({ data }) => {
       title: 'Company Name',
       dataIndex: 'name',
       key: 'name',
-      render: (text: string) => <Link to='/contact'>{text}</Link>
+      render: (text: string, data: Record<any, any>) => <Link to={`/contact/${data.id}`}>{text}</Link>
     },
     {
       title: 'Role',
@@ -68,7 +68,7 @@ const ContactList: React.FC<{data: any[]}> = ({ data }) => {
 
   return (
     <>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data} rowKey={(data) => data.id} />
       {values && (
         <Modal
           footer={[

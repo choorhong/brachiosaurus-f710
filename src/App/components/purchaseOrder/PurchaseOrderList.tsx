@@ -13,7 +13,7 @@ const PurchaseOrderList: React.FC<{data: any[]}> = ({ data }) => {
       title: 'Purchase Order',
       dataIndex: 'purchaseOrderId',
       key: 'purchaseOrderId',
-      render: (text: string) => <Link to='/purchase-order'>{text}</Link>
+      render: (text: string, data: Record<any, any>) => <Link to={`/purchase-order/${data.id}`}>{text}</Link>
     },
     {
       title: 'Vendor',

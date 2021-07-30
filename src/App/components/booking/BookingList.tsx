@@ -4,7 +4,6 @@ import moment from 'moment'
 
 import BookingForm from './BookingForm'
 import { SubmitValues } from '../types/booking'
-import { VesselForm } from '../vessel'
 import { Link } from 'react-router-dom'
 
 const BookingList: React.FC<{data: any[]}> = ({ data }) => {
@@ -15,7 +14,7 @@ const BookingList: React.FC<{data: any[]}> = ({ data }) => {
       title: 'Booking',
       dataIndex: 'bookingId',
       key: 'booking',
-      render: (text: string) => <Link to='/booking'>{text}</Link>
+      render: (text: string, data: Record<any, any>) => <Link to={`/booking/${data.id}`}>{text}</Link>
     },
     {
       title: 'Forwarder',
@@ -142,7 +141,7 @@ const BookingList: React.FC<{data: any[]}> = ({ data }) => {
 
   return (
     <>
-      <Table columns={columns} dataSource={data} bordered />
+      <Table columns={columns} dataSource={data} bordered rowKey={(data) => data.id} />
       {values && (
         <Modal
           footer={[
