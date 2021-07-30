@@ -2,6 +2,9 @@ import React from 'react'
 import { Form, Input, Button, DatePicker } from 'antd'
 
 import { IVesselFormProps, SubmitValues } from '../types/vessel'
+import axios from 'axios'
+
+const { REACT_APP_BASE_URL: baseUrl } = process.env
 
 const layout = {
   labelCol: {
@@ -37,8 +40,23 @@ const tailLayout = {
 const VesselForm: React.FC<IVesselFormProps> = ({ initialValues, onSave }) => {
   const [form] = Form.useForm()
 
-  // TODO: Handle submit
-  const handleSubmit = onSave || ((values: SubmitValues) => console.log(values))
+  // TODO: Handle submit for both create & edit
+  const handleSubmit = onSave || (async (values: SubmitValues) => {
+    const val = {
+      ...values,
+      name: values.name.trim().toUpperCase()
+    }
+    console.log('val', val)
+    try {
+      const result = await axios.post(`${baseUrl}/vessel/create`, val)
+      if (result && result.status === 201 && result.data) {
+        console.log('result', result)
+        // history.push(`/${baseUrl}/purchase-order/${result.data.id}`)
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  })
 
   return (
     <div style={{ padding: '2% 2%' }}>
@@ -63,7 +81,7 @@ const VesselForm: React.FC<IVesselFormProps> = ({ initialValues, onSave }) => {
         </Form.Item>
 
         <Form.Item
-          name='erd'
+          name='earliestReturningDate'
           label='Earliest Returning Date'
           rules={[
             {
