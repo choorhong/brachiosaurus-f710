@@ -19,7 +19,7 @@ const Nav: React.FC = (props) => {
   }, [pathname])
 
   return (
-    <Layout style={{ height: '100vh' }}>
+    <Layout style={{ minHeight: '100vh' }}>
       <Sider
         breakpoint='lg'
         collapsedWidth='0'

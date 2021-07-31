@@ -1,6 +1,6 @@
 export interface SubmitValues {
   name: string;
-  erd: moment.Moment;
+  earliestReturningDate: moment.Moment;
   cutOff: moment.Moment;
   remarks?: string;
 }
