@@ -1,4 +1,5 @@
 export interface SubmitValues {
+  id?: string;
   name: string;
   earliestReturningDate: moment.Moment;
   cutOff: moment.Moment;
@@ -8,4 +9,5 @@ export interface SubmitValues {
 export interface IVesselFormProps {
   initialValues?: SubmitValues;
   onSave?: (values: any) => void;
+  disabled?: boolean
 }
