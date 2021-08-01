@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react'
 import { Form, Input, Button, DatePicker } from 'antd'
 
-import { IVesselFormProps, SubmitValues } from '../types/vessel'
+import { SubmitValues } from '../types/vessel'
+import { IFormProps } from '../types/shared'
 import axios from 'axios'
 import moment from 'moment'
 
@@ -38,11 +39,11 @@ const tailLayout = {
   }
 }
 
-const VesselForm: React.FC<IVesselFormProps> = ({ initialValues, onSave, disabled }) => {
+const VesselForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disabled }) => {
   const [form] = Form.useForm()
 
   // TODO: Handle submit for both create & edit
-  const handleSubmit = onSave || (async (values: SubmitValues) => {
+  const handleSubmit = async (values: SubmitValues) => {
     let val = {
       ...values,
       name: values.name.trim().toUpperCase()
@@ -63,7 +64,7 @@ const VesselForm: React.FC<IVesselFormProps> = ({ initialValues, onSave, disable
     } catch (error) {
       console.log('error', error)
     }
-  })
+  }
 
   const defaultEditValues = useMemo(() => {
     if (!initialValues) return
