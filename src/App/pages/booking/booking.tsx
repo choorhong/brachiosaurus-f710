@@ -13,7 +13,6 @@ const BookingPage: React.FC = (props) => {
     (async () => {
       try {
         const bookings = await axios.get(`${baseUrl}/booking`)
-        console.log('bookings', bookings)
         if (bookings && bookings.data) {
           setData(bookings.data)
         }

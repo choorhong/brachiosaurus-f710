@@ -1,6 +1,7 @@
 export interface SubmitValues {
-  booking: string;
-  forwarder: string;
+  id?: string;
+  bookingId: string;
+  forwarderId: string;
   departure: {
     date: moment.Moment;
     location: string;
@@ -9,12 +10,8 @@ export interface SubmitValues {
     date: moment.Moment;
     location: string;
   };
-  vessel: string;
+  vesselId: string;
   users: string[];
+  slots: number;
   remarks?: string;
-}
-
-export interface IBookingFormProps {
-  initialValues?: SubmitValues;
-  onSave?: (values: any) => void;
 }
