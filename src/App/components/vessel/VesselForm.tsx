@@ -44,7 +44,6 @@ const VesselForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disable
   const history = useHistory()
   const [form] = Form.useForm()
 
-  // TODO: Handle submit for both create & edit
   const handleSubmit = async (values: SubmitValues) => {
     let val = {
       ...values,
@@ -134,13 +133,11 @@ const VesselForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disable
           <Input.TextArea rows={4} disabled={disabled} />
         </Form.Item>
 
-        {/* {!initialValues && ( */}
         <Form.Item {...tailLayout}>
           <Button type='primary' htmlType='submit' disabled={disabled}>
             Submit
           </Button>
         </Form.Item>
-        {/* )} */}
       </Form>
     </div>
   )

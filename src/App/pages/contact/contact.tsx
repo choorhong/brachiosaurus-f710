@@ -13,7 +13,6 @@ const ContactPage: React.FC = (props) => {
     (async () => {
       try {
         const contacts = await axios.get(`${baseUrl}/contact`)
-        console.log('contacts', contacts)
         if (contacts && contacts.data) {
           setData(contacts.data)
         }
