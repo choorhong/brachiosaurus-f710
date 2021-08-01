@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Form, Input, Button, DatePicker } from 'antd'
 
 import { SubmitValues } from '../types/vessel'
@@ -40,6 +41,7 @@ const tailLayout = {
 }
 
 const VesselForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disabled }) => {
+  const history = useHistory()
   const [form] = Form.useForm()
 
   // TODO: Handle submit for both create & edit
@@ -56,11 +58,11 @@ const VesselForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disable
     }
 
     try {
-      const result = await axios.post(url, val)
-      if (result && result.data) {
-        console.log('result', result)
-        // history.push(`/${baseUrl}/purchase-order/${result.data.id}`)
+      const { status } = await axios.post(url, val)
+      if (status === 200 || status === 201) {
+        return history.push('/vessel')
       }
+      throw new Error()
     } catch (error) {
       console.log('error', error)
     }

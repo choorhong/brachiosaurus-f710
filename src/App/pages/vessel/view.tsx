@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 import { VesselForm } from '../../components/vessel'
@@ -10,6 +10,7 @@ import Nav from '../../layout/Nav'
 const { REACT_APP_BASE_URL: baseUrl } = process.env
 
 const ViewVesselPage: React.FC = (props) => {
+  const history = useHistory()
   const params = useParams<{id: string}>()
   const [data, setData] = useState<SubmitValues>()
 
@@ -27,8 +28,16 @@ const ViewVesselPage: React.FC = (props) => {
     )()
   }, [params.id])
 
-  const handleDelete = () => {
-    console.log('Deleted')
+  const handleDelete = async () => {
+    try {
+      const { status } = await axios.delete(`${baseUrl}/vessel/${params.id}`)
+      if (status === 200) {
+        return history.push('/vessel')
+      }
+      throw new Error()
+    } catch (error) {
+      console.log('error', error)
+    }
   }
 
   return (
