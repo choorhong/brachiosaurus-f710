@@ -25,9 +25,7 @@ const VesselList: React.FC<{data: any[]}> = ({ data }) => {
     }
   ], [])
 
-  return (
-    <Table columns={columns} dataSource={data} rowKey={data => data.id} />
-  )
+  return <Table columns={columns} dataSource={data} rowKey={data => data.id} />
 }
 
 export default VesselList

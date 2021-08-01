@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Form, Input, Button, Select } from 'antd'
-
-import { IPurchaseOrderFormProps, STATUS, SubmitValues } from '../types/purchaseOrder'
 import axios from 'axios'
+
+import { ROLE } from '../types/contact'
+import { STATUS, SubmitValues } from '../types/purchaseOrder'
+import { IFormProps } from '../types/shared'
 
 const { REACT_APP_BASE_URL: baseUrl } = process.env
 
@@ -45,26 +48,48 @@ const STATUS_OPTIONS = [
   { label: 'Canceled', value: STATUS.CANCELED }
 ]
 
-const PurchaseOrderForm: React.FC<IPurchaseOrderFormProps> = ({ initialValues, onSave }) => {
+const PurchaseOrderForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disabled }) => {
+  const history = useHistory()
   const [form] = Form.useForm()
+  const [vendorOptions, setVendorOptions] = useState<{ label: string, value: string}[]>([])
 
-  // TODO: Handle submit for both create & edit
-  const handleSubmit = onSave || (async (values: SubmitValues) => {
-    const val = {
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get(`${baseUrl}/contact`)
+        if (data) {
+          const options = data.filter((d: any) => d.roles[0] === ROLE.VENDOR).map((d: any) => ({ label: d.name, value: d.id }))
+          setVendorOptions(options)
+        }
+      } catch (error) {
+        console.log('error', error)
+      }
+    }
+    )()
+  }, [])
+
+  const handleSubmit = async (values: SubmitValues) => {
+    let val = {
       ...values,
       purchaseOrderId: values.purchaseOrderId.trim().toUpperCase()
     }
-    console.log('val', val)
+    let url = `${baseUrl}/purchase-order/create`
+
+    if (initialValues) {
+      url = `${baseUrl}/purchase-order/update`
+      val = { ...val, id: initialValues.id }
+    }
+
     try {
-      const result = await axios.post(`${baseUrl}/purchase-order/create`, val)
-      if (result && result.status === 201 && result.data) {
-        console.log('result', result)
-        // history.push(`/${baseUrl}/purchase-order/${result.data.id}`)
+      const { status } = await axios.post(url, val)
+      if (status === 200 || status === 201) {
+        return history.push('/purchase-order')
       }
+      throw new Error()
     } catch (error) {
       console.log('error', error)
     }
-  })
+  }
 
   return (
     <div style={{ padding: '2% 2%' }}>
@@ -85,7 +110,7 @@ const PurchaseOrderForm: React.FC<IPurchaseOrderFormProps> = ({ initialValues, o
             }
           ]}
         >
-          <Input />
+          <Input disabled={disabled} />
         </Form.Item>
 
         <Form.Item
@@ -98,10 +123,8 @@ const PurchaseOrderForm: React.FC<IPurchaseOrderFormProps> = ({ initialValues, o
             }
           ]}
         >
-          {/* TODO: Fix this when the actual vendor list is available */}
-          <Select placeholder='Please select a vendor'>
-            <Option value='vendor1'>Vendor 1</Option>
-            <Option value='vendor2'>Vendor 2</Option>
+          <Select placeholder='Please select a vendor' disabled={disabled}>
+            {vendorOptions.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
           </Select>
         </Form.Item>
 
@@ -111,7 +134,7 @@ const PurchaseOrderForm: React.FC<IPurchaseOrderFormProps> = ({ initialValues, o
             label='Status'
             rules={[{ required: true }]}
           >
-            <Select>
+            <Select disabled={disabled}>
               {STATUS_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
             </Select>
           </Form.Item>
@@ -143,16 +166,14 @@ const PurchaseOrderForm: React.FC<IPurchaseOrderFormProps> = ({ initialValues, o
           name='remarks'
           label='Note/Remarks'
         >
-          <Input.TextArea rows={4} />
+          <Input.TextArea rows={4} disabled={disabled} />
         </Form.Item>
 
-        {!initialValues && (
-          <Form.Item {...tailLayout}>
-            <Button type='primary' htmlType='submit'>
-              Submit
-            </Button>
-          </Form.Item>
-        )}
+        <Form.Item {...tailLayout}>
+          <Button type='primary' htmlType='submit'>
+            Submit
+          </Button>
+        </Form.Item>
       </Form>
     </div>
   )

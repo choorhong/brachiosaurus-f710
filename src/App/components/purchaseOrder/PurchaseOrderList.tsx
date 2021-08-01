@@ -1,13 +1,10 @@
-import React, { useState, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Modal, Popconfirm, Table, Tag } from 'antd'
+import { Table, Tag } from 'antd'
 
-import { STATUS, SubmitValues } from '../types/purchaseOrder'
-import PurchaseOrderForm from './PurchaseOrderForm'
+import { STATUS } from '../types/purchaseOrder'
 
 const PurchaseOrderList: React.FC<{data: any[]}> = ({ data }) => {
-  const [values, setValues] = useState<SubmitValues | null>(null)
-
   const columns = useMemo(() => [
     {
       title: 'Purchase Order',
@@ -19,7 +16,7 @@ const PurchaseOrderList: React.FC<{data: any[]}> = ({ data }) => {
       title: 'Vendor',
       dataIndex: 'vendor',
       key: 'vendor',
-      render: (vendor: Record<any, any>) => vendor.name
+      render: (vendor: Record<any, any>) => vendor?.name
     },
     {
       title: 'Status',
@@ -38,65 +35,9 @@ const PurchaseOrderList: React.FC<{data: any[]}> = ({ data }) => {
         return <Tag color={color}>{status}</Tag>
       }
     }
-    // {
-    //   title: 'Users',
-    //   dataIndex: 'users',
-    //   key: 'users',
-    //   render: (users: string[]) => users.join(', ')
-    // },
-    // {
-    //   title: 'Note/Remarks',
-    //   dataIndex: 'remarks',
-    //   key: 'remarks'
-    // },
-    // {
-    //   title: 'Actions',
-    //   key: 'actions',
-    //   render: (_: any, record: SubmitValues) => {
-    //     return (
-    //       <>
-    //         <Button onClick={() => setValues(record)} type='link' style={{ marginRight: 8, padding: 0 }}>
-    //           Edit
-    //         </Button>
-    //         <Popconfirm title={`Are you sure you want to delete ${record.purchaseOrderId}?`} onConfirm={() => console.log('delete', record.purchaseOrderId)}>
-    //           <Button type='link' style={{ padding: 0 }}>
-    //             Delete
-    //           </Button>
-    //         </Popconfirm>
-    //       </>
-    //     )
-    //   }
-    // }
   ], [])
 
-  // TODO: Handle save
-  const handleSave = (values: SubmitValues) => {
-    console.log(values)
-    setValues(null)
-  }
-
-  return (
-    <>
-      <Table columns={columns} dataSource={data} />
-      {values && (
-        <Modal
-          footer={[
-            <Button key='cancel' onClick={() => setValues(null)}>
-              Cancel
-            </Button>,
-            <Button key='save' type='primary' form='purchase-order-form' htmlType='submit'>
-              Save
-            </Button>
-          ]}
-          onCancel={() => setValues(null)}
-          title='Edit Purchase Order'
-          visible
-        >
-          <PurchaseOrderForm initialValues={values} onSave={handleSave} />
-        </Modal>
-      )}
-    </>
-  )
+  return <Table columns={columns} dataSource={data} rowKey={(data) => data.id} />
 }
 
 export default PurchaseOrderList
