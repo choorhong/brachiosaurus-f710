@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Switch } from 'react-router-dom'
 // import { LoadingOutlined } from '@ant-design/icons'
 
@@ -27,7 +27,24 @@ import VesselPage from '../pages/vessel/vessel'
 import ViewVesselPage from '../pages/vessel/view'
 import CreateVesselPage from '../pages/vessel/create'
 
+import axiosAuth from '../axios'
+import { useAuth } from '../hooks/auth-context'
+
 const AppRouter = () => {
+  const { token } = useAuth()
+  useEffect(() => {
+    const reqInterceptor = axiosAuth.interceptors.request.use(
+      async req => {
+        req.headers.authorization = token
+        return req
+      },
+      err => Promise.reject(err)
+    )
+    return () => {
+      axiosAuth.interceptors.request.eject(reqInterceptor)
+    }
+  }, [token])
+
   return (
     <BrowserRouter>
       <Switch>

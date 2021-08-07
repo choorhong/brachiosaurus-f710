@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Nav from '../../layout/Nav'
 import { PurchaseOrderList } from '../../components/purchaseOrder'
 import SearchBar from '../../components/_shared/SearchBar'
-import axios from 'axios'
-
-const { REACT_APP_BASE_URL: baseUrl } = process.env
+import axiosAuth from '../../axios'
 
 const PurchaseOrderPage: React.FC = (props) => {
   const [data, setData] = useState<any[]>([])
@@ -12,7 +10,7 @@ const PurchaseOrderPage: React.FC = (props) => {
   useEffect(() => {
     (async () => {
       try {
-        const purchaseOrder = await axios.get(`${baseUrl}/purchase-order`)
+        const purchaseOrder = await axiosAuth.get('/purchase-order')
         if (purchaseOrder && purchaseOrder.data) {
           setData(purchaseOrder.data)
         }

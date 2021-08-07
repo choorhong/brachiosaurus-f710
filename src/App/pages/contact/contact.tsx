@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Nav from '../../layout/Nav'
 import { ContactList } from '../../components/contact'
 import SearchBar from '../../components/_shared/SearchBar'
-import axios from 'axios'
-
-const { REACT_APP_BASE_URL: baseUrl } = process.env
+import axiosAuth from '../../axios'
 
 const ContactPage: React.FC = (props) => {
   const [data, setData] = useState<any[]>([])
@@ -12,7 +10,7 @@ const ContactPage: React.FC = (props) => {
   useEffect(() => {
     (async () => {
       try {
-        const contacts = await axios.get(`${baseUrl}/contact`)
+        const contacts = await axiosAuth.get('/contact')
         if (contacts && contacts.data) {
           setData(contacts.data)
         }
