@@ -13,7 +13,6 @@ const PurchaseOrderPage: React.FC = (props) => {
     (async () => {
       try {
         const purchaseOrder = await axios.get(`${baseUrl}/purchase-order`)
-        console.log('purchaseOrder', purchaseOrder)
         if (purchaseOrder && purchaseOrder.data) {
           setData(purchaseOrder.data)
         }

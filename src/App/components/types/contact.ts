@@ -6,12 +6,8 @@ export enum ROLE {
 }
 
 export interface SubmitValues {
+  id?: string;
   name: string;
   role: ROLE;
   remarks?: string;
-}
-
-export interface IContactFormProps {
-  initialValues?: SubmitValues;
-  onSave?: (values: any) => void;
 }

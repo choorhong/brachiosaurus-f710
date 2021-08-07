@@ -5,14 +5,10 @@ export enum STATUS {
 }
 
 export interface SubmitValues {
+  id?: string;
   purchaseOrderId: string;
   vendorId: string;
   status: string;
   users: string[];
   remarks?: string;
-}
-
-export interface IPurchaseOrderFormProps {
-  initialValues?: SubmitValues;
-  onSave?: (values: any) => void;
 }

@@ -1,7 +1,9 @@
 import React, { useMemo } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Form, Input, Button, DatePicker } from 'antd'
 
-import { IVesselFormProps, SubmitValues } from '../types/vessel'
+import { SubmitValues } from '../types/vessel'
+import { IFormProps } from '../types/shared'
 import axios from 'axios'
 import moment from 'moment'
 
@@ -38,11 +40,11 @@ const tailLayout = {
   }
 }
 
-const VesselForm: React.FC<IVesselFormProps> = ({ initialValues, onSave, disabled }) => {
+const VesselForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disabled }) => {
+  const history = useHistory()
   const [form] = Form.useForm()
 
-  // TODO: Handle submit for both create & edit
-  const handleSubmit = onSave || (async (values: SubmitValues) => {
+  const handleSubmit = async (values: SubmitValues) => {
     let val = {
       ...values,
       name: values.name.trim().toUpperCase()
@@ -55,15 +57,15 @@ const VesselForm: React.FC<IVesselFormProps> = ({ initialValues, onSave, disable
     }
 
     try {
-      const result = await axios.post(url, val)
-      if (result && result.data) {
-        console.log('result', result)
-        // history.push(`/${baseUrl}/purchase-order/${result.data.id}`)
+      const { status } = await axios.post(url, val)
+      if (status === 200 || status === 201) {
+        return history.push('/vessel')
       }
+      throw new Error()
     } catch (error) {
       console.log('error', error)
     }
-  })
+  }
 
   const defaultEditValues = useMemo(() => {
     if (!initialValues) return
@@ -131,13 +133,11 @@ const VesselForm: React.FC<IVesselFormProps> = ({ initialValues, onSave, disable
           <Input.TextArea rows={4} disabled={disabled} />
         </Form.Item>
 
-        {/* {!initialValues && ( */}
         <Form.Item {...tailLayout}>
           <Button type='primary' htmlType='submit' disabled={disabled}>
             Submit
           </Button>
         </Form.Item>
-        {/* )} */}
       </Form>
     </div>
   )

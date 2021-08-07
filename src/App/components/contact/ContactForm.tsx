@@ -1,8 +1,10 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import { Form, Input, Button, Select } from 'antd'
-
-import { IContactFormProps, ROLE, SubmitValues } from '../types/contact'
 import axios from 'axios'
+
+import { ROLE, SubmitValues } from '../types/contact'
+import { IFormProps } from '../types/shared'
 
 const { REACT_APP_BASE_URL: baseUrl } = process.env
 
@@ -46,26 +48,32 @@ const ROLE_OPTIONS = [
   { label: 'Vendor', value: ROLE.VENDOR }
 ]
 
-const ContactForm: React.FC<IContactFormProps> = ({ initialValues, onSave }) => {
+const ContactForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disabled }) => {
+  const history = useHistory()
   const [form] = Form.useForm()
 
-  // TODO: Handle submit for both create & edit
-  const handleSubmit = onSave || (async (values: SubmitValues) => {
-    const val = {
+  const handleSubmit = async (values: SubmitValues) => {
+    let val = {
       ...values,
       name: values.name.trim().toUpperCase()
     }
+    let url = `${baseUrl}/contact/create`
+
+    if (initialValues) {
+      url = `${baseUrl}/contact/update`
+      val = { ...val, id: initialValues.id }
+    }
 
     try {
-      const result = await axios.post(`${baseUrl}/contact/create`, val)
-      if (result && result.status === 201 && result.data) {
-        console.log('result', result)
-        // history.push(`/${baseUrl}/contact/${result.data.id}`)
+      const { status } = await axios.post(url, val)
+      if (status === 200 || status === 201) {
+        return history.push('/contact')
       }
+      throw new Error()
     } catch (error) {
       console.log('error', error)
     }
-  })
+  }
 
   return (
     <div style={{ padding: '2% 2%' }}>
@@ -86,7 +94,7 @@ const ContactForm: React.FC<IContactFormProps> = ({ initialValues, onSave }) => 
             }
           ]}
         >
-          <Input />
+          <Input disabled={disabled} />
         </Form.Item>
 
         <Form.Item
@@ -94,7 +102,7 @@ const ContactForm: React.FC<IContactFormProps> = ({ initialValues, onSave }) => 
           label='Role'
           rules={[{ required: true }]}
         >
-          <Select>
+          <Select disabled={disabled}>
             {ROLE_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
           </Select>
         </Form.Item>
@@ -103,16 +111,14 @@ const ContactForm: React.FC<IContactFormProps> = ({ initialValues, onSave }) => 
           name='remarks'
           label='Note/Remarks'
         >
-          <Input.TextArea rows={4} />
+          <Input.TextArea rows={4} disabled={disabled} />
         </Form.Item>
 
-        {!initialValues && (
-          <Form.Item {...tailLayout}>
-            <Button type='primary' htmlType='submit'>
-              Submit
-            </Button>
-          </Form.Item>
-        )}
+        <Form.Item {...tailLayout}>
+          <Button type='primary' htmlType='submit' disabled={disabled}>
+            Submit
+          </Button>
+        </Form.Item>
       </Form>
     </div>
   )

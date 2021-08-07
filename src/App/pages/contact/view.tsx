@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import Nav from '../../layout/Nav'
+import { useHistory, useParams } from 'react-router-dom'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+
+import { ContactForm } from '../../components/contact'
+import { SubmitValues } from '../../components/types/contact'
+import View from '../../components/_shared/View'
+import Nav from '../../layout/Nav'
 
 const { REACT_APP_BASE_URL: baseUrl } = process.env
 
 const ViewContactPage: React.FC = (props) => {
+  const history = useHistory()
   const params = useParams<{id: string}>()
-  const [data, setData] = useState<Record<any, any>>()
+  const [data, setData] = useState<SubmitValues>()
 
   useEffect(() => {
     (async () => {
       try {
-        const result = await axios.get(`${baseUrl}/contact/${params.id}`)
-        if (result && result.data) {
-          setData(result.data)
+        const { data } = await axios.get(`${baseUrl}/contact/${params.id}`)
+        if (data) {
+          setData({ ...data, role: data.roles[0] })
         }
       } catch (error) {
         console.log('error', error)
@@ -23,9 +28,27 @@ const ViewContactPage: React.FC = (props) => {
     )()
   }, [params.id])
 
+  const handleDelete = async () => {
+    try {
+      const { status } = await axios.delete(`${baseUrl}/contact/${params.id}`)
+      if (status === 200) {
+        return history.push('/contact')
+      }
+      throw new Error()
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
   return (
     <Nav>
-      <pre>{JSON.stringify(data, null, 4)}</pre>
+      <View
+        data={data}
+        deleteBtnText='Delete Contact'
+        editBtnText='Edit Contact'
+        Form={ContactForm}
+        onDelete={handleDelete}
+      />
     </Nav>
   )
 }

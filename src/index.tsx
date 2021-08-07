@@ -1,8 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import axios from 'axios'
 import './index.css'
 import App from './App'
+import { auth } from './firebase'
 import reportWebVitals from './reportWebVitals'
+
+axios.interceptors.request.use(
+  async req => {
+    req.headers.authorization = await auth.currentUser!.getIdToken()
+    return req
+  },
+  err => Promise.reject(err)
+)
 
 ReactDOM.render(
   <React.StrictMode>

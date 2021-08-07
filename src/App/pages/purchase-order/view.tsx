@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import Nav from '../../layout/Nav'
+import { useHistory, useParams } from 'react-router-dom'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+
+import { PurchaseOrderForm } from '../../components/purchaseOrder'
+import { SubmitValues } from '../../components/types/purchaseOrder'
+import View from '../../components/_shared/View'
+import Nav from '../../layout/Nav'
 
 const { REACT_APP_BASE_URL: baseUrl } = process.env
 
 const ViewPurchaseOrderPage: React.FC = (props) => {
+  const history = useHistory()
   const params = useParams<{id: string}>()
-  const [data, setData] = useState<Record<any, any>>()
+  const [data, setData] = useState<SubmitValues>()
 
   useEffect(() => {
     (async () => {
@@ -23,9 +28,27 @@ const ViewPurchaseOrderPage: React.FC = (props) => {
     )()
   }, [params.id])
 
+  const handleDelete = async () => {
+    try {
+      const { status } = await axios.delete(`${baseUrl}/purchase-order/${params.id}`)
+      if (status === 200) {
+        return history.push('/purchase-order')
+      }
+      throw new Error()
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
   return (
     <Nav>
-      <pre>{JSON.stringify(data, null, 4)}</pre>
+      <View
+        data={data}
+        deleteBtnText='Delete Purchase Order'
+        editBtnText='Edit Purchase Order'
+        Form={PurchaseOrderForm}
+        onDelete={handleDelete}
+      />
     </Nav>
   )
 }
