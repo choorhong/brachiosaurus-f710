@@ -1,57 +1,52 @@
-import React, { useState, useMemo } from 'react'
-import { Button, Modal, Popconfirm, Table, Tag } from 'antd'
+import React, { useMemo } from 'react'
+import { Table, Tag } from 'antd'
 
-import ShipmentForm from './ShipmentForm'
-import { STATUS, SubmitValues } from '../types/shipment'
+import { STATUS } from '../types/shipment'
+import { Link } from 'react-router-dom'
+import moment from 'moment'
+// import { data } from '../../mock/shipment'
 
-const data = [
-  {
-    key: '1',
-    po: 'Purchase Order 1',
-    vendor: 'Vendor 1',
-    booking: 'Booking 1',
-    status: STATUS.CREATED,
-    users: ['user1'],
-    remarks: 'New York No. 1 Lake Park'
-  },
-  {
-    key: '2',
-    po: 'Purchase Order 2',
-    vendor: 'Vendor 2',
-    booking: 'Booking 2',
-    status: STATUS.FULFILLED,
-    users: ['user2'],
-    remarks: 'London No. 1 Lake Park'
-  },
-  {
-    key: '3',
-    po: 'Purchase Order 3',
-    vendor: 'Vendor 3',
-    booking: 'Booking 3',
-    status: STATUS.PAID,
-    users: ['user2', 'user3'],
-    remarks: 'Sidney No. 1 Lake Park'
-  }
-]
-
-const ShipmentList: React.FC = () => {
-  const [values, setValues] = useState<SubmitValues | null>(null)
-
+const ShipmentList: React.FC<{data: any[]}> = ({ data }) => {
   const columns = useMemo(() => [
     {
+      title: 'Id',
+      dataIndex: 'id',
+      key: 'id',
+      render: (id: string) => <Link to={`/shipment/${id}`} target='_blank'>{id.slice(-5)}</Link>
+    },
+    {
       title: 'Purchase Order',
-      dataIndex: 'po',
-      key: 'po'
+      dataIndex: 'purchaseOrder',
+      key: 'po',
+      render: (data: Record<any, any>) => <Link to={`/purchase-order/${data.id}`} target='_blank'>{data.purchaseOrderId}</Link>
     },
     {
       title: 'Vendor',
       dataIndex: 'vendor',
-      key: 'vendor'
+      key: 'vendor',
+      render: (data: Record<any, any>) => <Link to={`/contact/${data.id}`} target='_blank'>{data.name}</Link>
+
     },
     {
       title: 'Booking',
-      dataIndex: 'booking',
-      key: 'booking'
+      key: 'booking',
+      width: '35%',
+      render: (data: Record<any, any>) => (
+        <>
+          <Tag color='purple'>
+            <Link to={`/booking/${data.booking.id}`} target='_blank'>{data.booking.bookingId}</Link>
+          </Tag>
+          <Tag color='cyan'>
+            <Link to={`/vessel/${data.booking.vessel.id}`} target='_blank'>{data.booking.vessel.name}</Link>
+          </Tag>
+          <Tag color='green'>
+            {moment(data.booking.vessel.earliestReturningDate).format('YYYY-MM-DD')}
+          </Tag>
+          <Tag color='red'>
+            {moment(data.booking.vessel.cutoff).format('YYYY-MM-DD')}
+          </Tag>
+        </>
+      )
     },
     {
       title: 'Status',
@@ -108,33 +103,12 @@ const ShipmentList: React.FC = () => {
   ], [])
 
   // TODO: Handle save
-  const handleSave = (values: SubmitValues) => {
-    console.log(values)
-    setValues(null)
-  }
+  // const handleSave = (values: SubmitValues) => {
+  //   console.log(values)
+  //   setValues(null)
+  // }
 
-  return (
-    <>
-      <Table columns={columns} dataSource={data} />
-      {values && (
-        <Modal
-          footer={[
-            <Button key='cancel' onClick={() => setValues(null)}>
-              Cancel
-            </Button>,
-            <Button key='save' type='primary' form='shipment-form' htmlType='submit'>
-              Save
-            </Button>
-          ]}
-          onCancel={() => setValues(null)}
-          title='Edit Shipment'
-          visible
-        >
-          <ShipmentForm initialValues={values} onSave={handleSave} />
-        </Modal>
-      )}
-    </>
-  )
+  return <Table columns={columns} dataSource={data} rowKey={(data) => data.id} />
 }
 
 export default ShipmentList
