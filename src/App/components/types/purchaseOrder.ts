@@ -9,6 +9,10 @@ export interface SubmitValues {
   purchaseOrderId: string;
   vendorId: string;
   status: string;
-  users: string[];
+  users?: string[];
   remarks?: string;
+}
+
+export interface PurchaseOrderValues extends SubmitValues {
+  vendor?: Record<string, any>
 }

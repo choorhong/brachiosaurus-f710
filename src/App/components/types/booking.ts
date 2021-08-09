@@ -11,7 +11,12 @@ export interface SubmitValues {
     location: string;
   };
   vesselId: string;
-  users: string[];
+  users?: string[];
   slots: number;
   remarks?: string;
+}
+
+export interface BookingValues extends SubmitValues {
+  forwarder?: Record<string, any>;
+  vessel?: Record<any, any>;
 }

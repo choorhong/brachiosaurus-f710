@@ -8,15 +8,16 @@ export enum STATUS {
 }
 
 export interface SubmitValues {
-  po: string;
-  vendor: string;
-  booking: string;
+  purchaseOrderId: string;
+  vendorId: string;
+  bookingId: string;
   status: string;
   users: string[];
   remarks?: string;
 }
 
-export interface IShipmentFormProps {
-  initialValues?: SubmitValues;
-  onSave?: (values: any) => void;
+export interface ShipmentValues extends SubmitValues {
+  purchaseOrder?: Record<string, any>;
+  vendor?: Record<string, any>;
+  booking?: Record<string, any>;
 }
