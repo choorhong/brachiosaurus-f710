@@ -12,7 +12,7 @@ const ShipmentList: React.FC<{data: any[]}> = ({ data }) => {
       title: 'Id',
       dataIndex: 'id',
       key: 'id',
-      render: (id: string) => <Link to={`/shipment/${id}`} target='_blank'>{id.slice(-5)}</Link>
+      render: (id: string) => <Link to={`/shipment/${id}`}>{id.slice(-5)}</Link>
     },
     {
       title: 'Purchase Order',
