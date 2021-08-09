@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import axios from 'axios'
 
 import { ContactForm } from '../../components/contact'
 import { SubmitValues } from '../../components/types/contact'
 import View from '../../components/_shared/View'
 import Nav from '../../layout/Nav'
-
-const { REACT_APP_BASE_URL: baseUrl } = process.env
+import axiosAuth from '../../axios'
 
 const ViewContactPage: React.FC = (props) => {
   const history = useHistory()
@@ -17,7 +15,7 @@ const ViewContactPage: React.FC = (props) => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`${baseUrl}/contact/${params.id}`)
+        const { data } = await axiosAuth.get(`/contact/${params.id}`)
         if (data) {
           setData({ ...data, role: data.roles[0] })
         }
@@ -30,7 +28,7 @@ const ViewContactPage: React.FC = (props) => {
 
   const handleDelete = async () => {
     try {
-      const { status } = await axios.delete(`${baseUrl}/contact/${params.id}`)
+      const { status } = await axiosAuth.delete(`/contact/${params.id}`)
       if (status === 200) {
         return history.push('/contact')
       }

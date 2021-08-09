@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import axios from 'axios'
 
 import { VesselForm } from '../../components/vessel'
 import { SubmitValues } from '../../components/types/vessel'
 import View from '../../components/_shared/View'
 import Nav from '../../layout/Nav'
-
-const { REACT_APP_BASE_URL: baseUrl } = process.env
+import axiosAuth from '../../axios'
 
 const ViewVesselPage: React.FC = (props) => {
   const history = useHistory()
@@ -17,7 +15,7 @@ const ViewVesselPage: React.FC = (props) => {
   useEffect(() => {
     (async () => {
       try {
-        const vessel = await axios.get(`${baseUrl}/vessel/${params.id}`)
+        const vessel = await axiosAuth.get(`/vessel/${params.id}`)
         if (vessel && vessel.data) {
           setData(vessel.data)
         }
@@ -30,7 +28,7 @@ const ViewVesselPage: React.FC = (props) => {
 
   const handleDelete = async () => {
     try {
-      const { status } = await axios.delete(`${baseUrl}/vessel/${params.id}`)
+      const { status } = await axiosAuth.delete(`/vessel/${params.id}`)
       if (status === 200) {
         return history.push('/vessel')
       }
