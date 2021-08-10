@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Form, Input, Button, Select } from 'antd'
 
-import { IShipmentFormProps, STATUS, SubmitValues } from '../types/shipment'
+import { IFormProps } from '../types/shared'
+import { ShipmentValues, STATUS, SubmitValues } from '../types/shipment'
+import InputSearch from '../_shared/InputSearch'
 
 const layout = {
   labelCol: {
@@ -45,23 +47,62 @@ const STATUS_OPTIONS = [
   { label: 'Canceled', value: STATUS.CANCELED }
 ]
 
-const ShipmentForm: React.FC<IShipmentFormProps> = ({ initialValues, onSave }) => {
+const ShipmentForm: React.FC<IFormProps<ShipmentValues>> = ({ initialValues, disabled }) => {
   const [form] = Form.useForm()
 
-  // TODO: Handle submit
-  const handleSubmit = onSave || ((values: SubmitValues) => console.log(values))
+  const defaultValues = useMemo(() => {
+    let initialVal = initialValues
 
+    if (initialValues) {
+      initialVal = {
+        purchaseOrderId: initialValues.purchaseOrderId,
+        bookingId: initialValues.bookingId,
+        vendorId: initialValues.vendorId,
+        remarks: initialValues.remarks,
+        status: initialValues.status,
+        users: initialValues.users
+      }
+    }
+    return initialVal
+  }, [initialValues])
+
+  // TODO: Handle submit
+  const handleSubmit = (values: SubmitValues) => console.log(values)
+
+  const searchOptions = useMemo(() => {
+    let options
+
+    if (initialValues) {
+      options = {
+        vendor: [{
+          label: initialValues?.vendor?.name,
+          value: initialValues?.vendor?.id
+        }],
+        purchaseOrder: [{
+          label: initialValues?.purchaseOrder?.purchaseOrderId,
+          value: initialValues?.purchaseOrder?.id
+        }],
+        booking: [{
+          label: initialValues?.booking?.bookingId,
+          value: initialValues?.booking?.id
+
+        }]
+      }
+    }
+    return options
+  }, [initialValues])
+  console.log('options', searchOptions)
   return (
     <div style={{ padding: '2% 2%' }}>
       <Form
         {...layout}
         form={form}
-        initialValues={initialValues ?? { status: STATUS.CREATED }}
+        initialValues={defaultValues ?? { status: STATUS.CREATED }}
         name='shipment-form'
         onFinish={handleSubmit}
       >
         <Form.Item
-          name='po'
+          name='purchaseOrderId'
           label='Purchase Order'
           rules={[
             {
@@ -70,15 +111,11 @@ const ShipmentForm: React.FC<IShipmentFormProps> = ({ initialValues, onSave }) =
             }
           ]}
         >
-          {/* TODO: Fix this when the actual PO list is available */}
-          <Select placeholder='Please select a purchase order'>
-            <Option value='po1'>PO 1</Option>
-            <Option value='po2'>PO 2</Option>
-          </Select>
+          <InputSearch isPO disabled={disabled} searchOptions={searchOptions?.purchaseOrder} placeholder='Search Purchase Order' />
         </Form.Item>
 
         <Form.Item
-          name='vendor'
+          name='vendorId'
           label='Vendor'
           rules={[
             {
@@ -87,15 +124,11 @@ const ShipmentForm: React.FC<IShipmentFormProps> = ({ initialValues, onSave }) =
             }
           ]}
         >
-          {/* TODO: Fix this when the actual vendor list is available */}
-          <Select placeholder='Please select a vendor'>
-            <Option value='vendor1'>Vendor 1</Option>
-            <Option value='vendor2'>Vendor 2</Option>
-          </Select>
+          <InputSearch isContact disabled={disabled} searchOptions={searchOptions?.vendor} placeholder='Search Vendor' />
         </Form.Item>
 
         <Form.Item
-          name='booking'
+          name='bookingId'
           label='Booking'
           rules={[
             {
@@ -104,24 +137,18 @@ const ShipmentForm: React.FC<IShipmentFormProps> = ({ initialValues, onSave }) =
             }
           ]}
         >
-          {/* TODO: Fix this when the actual booking list is available */}
-          <Select placeholder='Please select a booking'>
-            <Option value='booking1'>Booking 1</Option>
-            <Option value='booking2'>Booking 2</Option>
-          </Select>
+          <InputSearch isBooking disabled={disabled} searchOptions={searchOptions?.booking} placeholder='Search Booking' />
         </Form.Item>
 
-        {initialValues && (
-          <Form.Item
-            name='status'
-            label='Status'
-            rules={[{ required: true }]}
-          >
-            <Select>
-              {STATUS_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
-            </Select>
-          </Form.Item>
-        )}
+        <Form.Item
+          name='status'
+          label='Status'
+          rules={[{ required: true }]}
+        >
+          <Select>
+            {STATUS_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
+          </Select>
+        </Form.Item>
 
         <Form.Item
           name='users'
@@ -149,16 +176,14 @@ const ShipmentForm: React.FC<IShipmentFormProps> = ({ initialValues, onSave }) =
           name='remarks'
           label='Note/Remarks'
         >
-          <Input.TextArea rows={4} />
+          <Input.TextArea rows={4} disabled={disabled} />
         </Form.Item>
 
-        {!initialValues && (
-          <Form.Item {...tailLayout}>
-            <Button type='primary' htmlType='submit'>
-              Submit
-            </Button>
-          </Form.Item>
-        )}
+        <Form.Item {...tailLayout}>
+          <Button type='primary' htmlType='submit' disabled={disabled}>
+            Submit
+          </Button>
+        </Form.Item>
       </Form>
     </div>
   )

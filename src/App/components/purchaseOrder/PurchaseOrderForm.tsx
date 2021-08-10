@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Form, Input, Button, Select } from 'antd'
 import axios from 'axios'
 
 import { ROLE } from '../types/contact'
-import { STATUS, SubmitValues } from '../types/purchaseOrder'
+import { PurchaseOrderValues, STATUS, SubmitValues } from '../types/purchaseOrder'
 import { IFormProps } from '../types/shared'
+import InputSearch from '../_shared/InputSearch'
 
 const { REACT_APP_BASE_URL: baseUrl } = process.env
 
@@ -48,25 +49,35 @@ const STATUS_OPTIONS = [
   { label: 'Canceled', value: STATUS.CANCELED }
 ]
 
-const PurchaseOrderForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disabled }) => {
+const PurchaseOrderForm: React.FC<IFormProps<PurchaseOrderValues>> = ({ initialValues, disabled }) => {
   const history = useHistory()
   const [form] = Form.useForm()
-  const [vendorOptions, setVendorOptions] = useState<{ label: string, value: string}[]>([])
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await axios.get(`${baseUrl}/contact`)
-        if (data) {
-          const options = data.filter((d: any) => d.roles[0] === ROLE.VENDOR).map((d: any) => ({ label: d.name, value: d.id }))
-          setVendorOptions(options)
-        }
-      } catch (error) {
-        console.log('error', error)
+  const defaultValues = useMemo(() => {
+    let initialVal = initialValues
+
+    if (initialValues) {
+      initialVal = {
+        purchaseOrderId: initialValues.purchaseOrderId,
+        remarks: initialValues.remarks,
+        status: initialValues.status,
+        vendorId: initialValues.vendorId
       }
     }
-    )()
-  }, [])
+    return initialVal
+  }, [initialValues])
+
+  const searchOptions = useMemo(() => {
+    let options
+
+    if (initialValues) {
+      options = [{
+        label: initialValues?.vendor?.name,
+        value: initialValues?.vendor?.id
+      }]
+    }
+    return options
+  }, [initialValues])
 
   const handleSubmit = async (values: SubmitValues) => {
     let val = {
@@ -96,7 +107,7 @@ const PurchaseOrderForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, 
       <Form
         {...layout}
         form={form}
-        initialValues={initialValues}
+        initialValues={defaultValues}
         name='purchase-order-form'
         onFinish={handleSubmit}
       >
@@ -123,9 +134,7 @@ const PurchaseOrderForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, 
             }
           ]}
         >
-          <Select placeholder='Please select a vendor' disabled={disabled}>
-            {vendorOptions.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
-          </Select>
+          <InputSearch isContact disabled={disabled} searchOptions={searchOptions} placeholder='Search Vendor' />
         </Form.Item>
 
         {initialValues && (

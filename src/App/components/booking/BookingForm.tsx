@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
-import cloneDeep from 'lodash/cloneDeep'
-import { Form, Input, Button, Select, DatePicker, InputNumber } from 'antd'
+import { Form, Input, Button, DatePicker, InputNumber } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import axios from 'axios'
 import moment from 'moment'
 
-import { ROLE } from '../types/contact'
-import { SubmitValues } from '../types/booking'
+import { BookingValues, SubmitValues } from '../types/booking'
 import { IFormProps } from '../types/shared'
+import InputSearch from '../_shared/InputSearch'
 
 const { REACT_APP_BASE_URL: baseUrl } = process.env
 
@@ -43,41 +42,50 @@ const tailLayout = {
   }
 }
 
-const { Option } = Select
-
-const BookingForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disabled }) => {
+const BookingForm: React.FC<IFormProps<BookingValues>> = ({ initialValues, disabled }) => {
   const history = useHistory()
   const [form] = Form.useForm()
-  const [forwarderOptions, setForwarderOptions] = useState<{ label: string, value: string}[]>([])
-  const [vesselOptions, setVesselOptions] = useState<{ label: string, value: string}[]>([])
-  let modifiedInitialValues: SubmitValues | undefined
 
-  if (initialValues) {
-    modifiedInitialValues = cloneDeep(initialValues)
-    modifiedInitialValues.departure.date = moment(modifiedInitialValues.departure.date)
-    modifiedInitialValues.arrival.date = moment(modifiedInitialValues.arrival.date)
-  }
+  const defaultValues = useMemo(() => {
+    let initialVal = initialValues
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data: contacts } = await axios.get(`${baseUrl}/contact`)
-        const { data: vessels } = await axios.get(`${baseUrl}/vessel`)
-        if (contacts) {
-          const options = contacts.filter((d: any) => d.roles[0] === ROLE.FORWARDER).map((d: any) => ({ label: d.name, value: d.id }))
-          setForwarderOptions(options)
+    if (initialValues) {
+      initialVal = {
+        bookingId: initialValues.bookingId,
+        vesselId: initialValues.vesselId,
+        remarks: initialValues.remarks,
+        forwarderId: initialValues.forwarderId,
+        slots: initialValues.slots,
+        departure: {
+          date: moment(initialValues.departure.date),
+          location: initialValues.departure.location
+        },
+        arrival: {
+          date: moment(initialValues.arrival.date),
+          location: initialValues.arrival.location
         }
-
-        if (vessels) {
-          const options = vessels.map((vessel: any) => ({ label: vessel.name, value: vessel.id }))
-          setVesselOptions(options)
-        }
-      } catch (error) {
-        console.log('error', error)
       }
     }
-    )()
-  }, [])
+    return initialVal
+  }, [initialValues])
+
+  const searchOptions = useMemo(() => {
+    let options
+
+    if (initialValues) {
+      options = {
+        forwarder: [{
+          label: initialValues?.forwarder?.name,
+          value: initialValues?.forwarder?.id
+        }],
+        vessel: [{
+          label: initialValues?.vessel?.name,
+          value: initialValues?.vessel?.id
+        }]
+      }
+    }
+    return options
+  }, [initialValues])
 
   const handleSubmit = async (values: SubmitValues) => {
     let val = {
@@ -86,9 +94,9 @@ const BookingForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disabl
     }
     let url = `${baseUrl}/booking/create`
 
-    if (modifiedInitialValues) {
+    if (initialValues) {
       url = `${baseUrl}/booking/update`
-      val = { ...val, id: modifiedInitialValues.id }
+      val = { ...val, id: initialValues.id }
     }
 
     try {
@@ -107,7 +115,7 @@ const BookingForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disabl
       <Form
         {...layout}
         form={form}
-        initialValues={modifiedInitialValues}
+        initialValues={defaultValues}
         name='booking-form'
         onFinish={handleSubmit}
       >
@@ -134,9 +142,7 @@ const BookingForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disabl
             }
           ]}
         >
-          <Select placeholder='Please select a forwarder' disabled={disabled}>
-            {forwarderOptions.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
-          </Select>
+          <InputSearch isContact disabled={disabled} searchOptions={searchOptions?.forwarder} placeholder='Search Forwarder' />
         </Form.Item>
 
         <Form.Item
@@ -201,9 +207,7 @@ const BookingForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disabl
                 }
               ]}
             >
-              <Select style={{ width: '90%' }} placeholder='Please select a vessel' disabled={disabled}>
-                {vesselOptions.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
-              </Select>
+              <InputSearch isVessel disabled={disabled} searchOptions={searchOptions?.vessel} placeholder='Search Vessel' style={{ flex: 0.98 }} />
             </Form.Item>
 
             <Button icon={<PlusOutlined />} onClick={() => history.push('/vessel/create')} disabled={disabled} />
