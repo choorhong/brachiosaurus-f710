@@ -8,37 +8,7 @@ import { BookingValues, SubmitValues } from '../types/booking'
 import { IFormProps } from '../types/shared'
 import InputSearch from '../_shared/InputSearch'
 import axiosAuth from '../../axios'
-
-const layout = {
-  labelCol: {
-    sm: {
-      span: 12
-    },
-    lg: {
-      span: 6
-    }
-  },
-  wrapperCol: {
-    sm: {
-      span: 12
-    },
-    lg: {
-      span: 12
-    }
-  }
-}
-
-const tailLayout = {
-  wrapperCol: {
-    sm: {
-      span: 12
-    },
-    lg: {
-      offset: 6,
-      span: 12
-    }
-  }
-}
+import { layout, tailLayout } from '../style/layout'
 
 const BookingForm: React.FC<IFormProps<BookingValues>> = ({ initialValues, disabled }) => {
   const history = useHistory()

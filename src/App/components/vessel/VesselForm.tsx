@@ -6,37 +6,7 @@ import { SubmitValues } from '../types/vessel'
 import { IFormProps } from '../types/shared'
 import moment from 'moment'
 import axiosAuth from '../../axios'
-
-const layout = {
-  labelCol: {
-    sm: {
-      span: 12
-    },
-    lg: {
-      span: 6
-    }
-  },
-  wrapperCol: {
-    sm: {
-      span: 12
-    },
-    lg: {
-      span: 12
-    }
-  }
-}
-
-const tailLayout = {
-  wrapperCol: {
-    sm: {
-      span: 12
-    },
-    lg: {
-      offset: 6,
-      span: 12
-    }
-  }
-}
+import { layout, tailLayout } from '../style/layout'
 
 const VesselForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disabled }) => {
   const history = useHistory()

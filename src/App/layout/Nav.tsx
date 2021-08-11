@@ -49,7 +49,9 @@ const Nav: React.FC = (props) => {
           </Menu.Item>
 
           <SubMenu key='setting' title='Setting' icon={<SettingOutlined />}>
-            <Menu.Item key='profile' icon={<UserOutlined />}>Profile</Menu.Item>
+            <Menu.Item key='profile' icon={<UserOutlined />}>
+              <Link to='/profile'>Profile</Link>
+            </Menu.Item>
             <Menu.Item key='users' icon={<TeamOutlined />}>Users</Menu.Item>
           </SubMenu>
 
