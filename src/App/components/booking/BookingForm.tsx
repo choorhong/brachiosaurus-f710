@@ -2,14 +2,12 @@ import React, { useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Form, Input, Button, DatePicker, InputNumber } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import axios from 'axios'
 import moment from 'moment'
 
 import { BookingValues, SubmitValues } from '../types/booking'
 import { IFormProps } from '../types/shared'
 import InputSearch from '../_shared/InputSearch'
-
-const { REACT_APP_BASE_URL: baseUrl } = process.env
+import axiosAuth from '../../axios'
 
 const layout = {
   labelCol: {
@@ -92,15 +90,15 @@ const BookingForm: React.FC<IFormProps<BookingValues>> = ({ initialValues, disab
       ...values,
       bookingId: values.bookingId.trim().toUpperCase()
     }
-    let url = `${baseUrl}/booking/create`
+    let url = '/booking/create'
 
     if (initialValues) {
-      url = `${baseUrl}/booking/update`
+      url = '/booking/update'
       val = { ...val, id: initialValues.id }
     }
 
     try {
-      const { status } = await axios.post(url, val)
+      const { status } = await axiosAuth.post(url, val)
       if (status === 200 || status === 201) {
         return history.push('/booking')
       }

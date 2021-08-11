@@ -1,14 +1,12 @@
 import React, { useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Form, Input, Button, Select } from 'antd'
-import axios from 'axios'
 
 import { ROLE } from '../types/contact'
 import { PurchaseOrderValues, STATUS, SubmitValues } from '../types/purchaseOrder'
 import { IFormProps } from '../types/shared'
 import InputSearch from '../_shared/InputSearch'
-
-const { REACT_APP_BASE_URL: baseUrl } = process.env
+import axiosAuth from '../../axios'
 
 const layout = {
   labelCol: {
@@ -84,15 +82,15 @@ const PurchaseOrderForm: React.FC<IFormProps<PurchaseOrderValues>> = ({ initialV
       ...values,
       purchaseOrderId: values.purchaseOrderId.trim().toUpperCase()
     }
-    let url = `${baseUrl}/purchase-order/create`
+    let url = '/purchase-order/create'
 
     if (initialValues) {
-      url = `${baseUrl}/purchase-order/update`
+      url = '/purchase-order/update'
       val = { ...val, id: initialValues.id }
     }
 
     try {
-      const { status } = await axios.post(url, val)
+      const { status } = await axiosAuth.post(url, val)
       if (status === 200 || status === 201) {
         return history.push('/purchase-order')
       }

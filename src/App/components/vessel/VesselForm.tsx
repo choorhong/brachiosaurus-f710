@@ -4,10 +4,8 @@ import { Form, Input, Button, DatePicker } from 'antd'
 
 import { SubmitValues } from '../types/vessel'
 import { IFormProps } from '../types/shared'
-import axios from 'axios'
 import moment from 'moment'
-
-const { REACT_APP_BASE_URL: baseUrl } = process.env
+import axiosAuth from '../../axios'
 
 const layout = {
   labelCol: {
@@ -49,15 +47,15 @@ const VesselForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disable
       ...values,
       name: values.name.trim().toUpperCase()
     }
-    let url = `${baseUrl}/vessel/create`
+    let url = '/vessel/create'
 
     if (initialValues) { // for edit vessel
-      url = `${baseUrl}/vessel/update`
+      url = '/vessel/update'
       val = { ...val, id: initialValues.id }
     }
 
     try {
-      const { status } = await axios.post(url, val)
+      const { status } = await axiosAuth.post(url, val)
       if (status === 200 || status === 201) {
         return history.push('/vessel')
       }
