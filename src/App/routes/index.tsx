@@ -29,6 +29,8 @@ import VesselPage from '../pages/vessel/vessel'
 import ViewVesselPage from '../pages/vessel/view'
 import CreateVesselPage from '../pages/vessel/create'
 
+import ProfilePage from '../pages/profile/update-password'
+
 import axiosAuth from '../axios'
 import { useAuth } from '../hooks/auth-context'
 
@@ -117,6 +119,10 @@ const AppRouter = () => {
 
         <PrivateRoute path='/shipment/:id'>
           <ViewShipmentPage />
+        </PrivateRoute>
+
+        <PrivateRoute path='/profile'>
+          <ProfilePage />
         </PrivateRoute>
 
         <PrivateRoute path='/'>
