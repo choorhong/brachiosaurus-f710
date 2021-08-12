@@ -8,11 +8,12 @@ export enum STATUS {
 }
 
 export interface SubmitValues {
+  id?: string;
   purchaseOrderId: string;
   vendorId: string;
-  bookingId: string;
+  bookingId?: string;
   status: string;
-  users: string[];
+  users?: string[];
   remarks?: string;
 }
 

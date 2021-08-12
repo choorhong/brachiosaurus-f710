@@ -4,37 +4,9 @@ import { Form, Input, Button, Select } from 'antd'
 import { IFormProps } from '../types/shared'
 import { ShipmentValues, STATUS, SubmitValues } from '../types/shipment'
 import InputSearch from '../_shared/InputSearch'
-
-const layout = {
-  labelCol: {
-    sm: {
-      span: 12
-    },
-    lg: {
-      span: 6
-    }
-  },
-  wrapperCol: {
-    sm: {
-      span: 12
-    },
-    lg: {
-      span: 12
-    }
-  }
-}
-
-const tailLayout = {
-  wrapperCol: {
-    sm: {
-      span: 12
-    },
-    lg: {
-      offset: 6,
-      span: 12
-    }
-  }
-}
+import axiosAuth from '../../axios'
+import { useHistory } from 'react-router-dom'
+import { layout, tailLayout } from '../style/layout'
 
 const { Option } = Select
 
@@ -48,6 +20,7 @@ const STATUS_OPTIONS = [
 ]
 
 const ShipmentForm: React.FC<IFormProps<ShipmentValues>> = ({ initialValues, disabled }) => {
+  const history = useHistory()
   const [form] = Form.useForm()
 
   const defaultValues = useMemo(() => {
@@ -66,8 +39,27 @@ const ShipmentForm: React.FC<IFormProps<ShipmentValues>> = ({ initialValues, dis
     return initialVal
   }, [initialValues])
 
-  // TODO: Handle submit
-  const handleSubmit = (values: SubmitValues) => console.log(values)
+  const handleSubmit = async (values: SubmitValues) => {
+    let val = {
+      ...values
+    }
+    let url = '/shipment/create'
+
+    if (initialValues) {
+      url = '/shipment/update'
+      val = { ...val, id: initialValues.id }
+    }
+
+    try {
+      const { status } = await axiosAuth.post(url, val)
+      if (status === 200 || status === 201) {
+        return history.push('/shipment')
+      }
+      throw new Error()
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
   const searchOptions = useMemo(() => {
     let options
@@ -91,7 +83,7 @@ const ShipmentForm: React.FC<IFormProps<ShipmentValues>> = ({ initialValues, dis
     }
     return options
   }, [initialValues])
-  console.log('options', searchOptions)
+
   return (
     <div style={{ padding: '2% 2%' }}>
       <Form
@@ -145,12 +137,12 @@ const ShipmentForm: React.FC<IFormProps<ShipmentValues>> = ({ initialValues, dis
           label='Status'
           rules={[{ required: true }]}
         >
-          <Select>
+          <Select disabled={disabled}>
             {STATUS_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
           </Select>
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           name='users'
           label='Users'
           rules={[
@@ -160,7 +152,7 @@ const ShipmentForm: React.FC<IFormProps<ShipmentValues>> = ({ initialValues, dis
             }
           ]}
         >
-          {/* TODO: Fix this when the actual user list is available */}
+          TODO: Fix this when the actual user list is available
           <Select
             allowClear
             mode='multiple'
@@ -170,7 +162,7 @@ const ShipmentForm: React.FC<IFormProps<ShipmentValues>> = ({ initialValues, dis
             <Option value='user2'>User 2</Option>
             <Option value='user3'>User 3</Option>
           </Select>
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item
           name='remarks'
