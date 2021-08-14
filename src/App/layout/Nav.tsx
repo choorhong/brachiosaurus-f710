@@ -52,7 +52,9 @@ const Nav: React.FC = (props) => {
             <Menu.Item key='profile' icon={<UserOutlined />}>
               <Link to='/profile'>Profile</Link>
             </Menu.Item>
-            <Menu.Item key='users' icon={<TeamOutlined />}>Users</Menu.Item>
+            <Menu.Item key='users' icon={<TeamOutlined />}>
+              <Link to='/users'>Users</Link>
+            </Menu.Item>
           </SubMenu>
 
           <Menu.Item key='logout' icon={<LogoutOutlined />} onClick={logout}>
