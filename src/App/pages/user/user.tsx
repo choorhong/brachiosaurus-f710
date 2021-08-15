@@ -6,23 +6,24 @@ import axiosAuth from '../../axios'
 const UserPage: React.FC = (props) => {
   const [data, setData] = useState<any[]>([])
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await axiosAuth.get('/auth/users')
-        if (data) {
-          setData(data)
-        }
-      } catch (error) {
-        console.log('error', error)
+  const getAllUsers = async () => {
+    try {
+      const { data } = await axiosAuth.get('/auth/users')
+      if (data) {
+        setData(data)
       }
+    } catch (error) {
+      console.log('error', error)
     }
-    )()
+  }
+
+  useEffect(() => {
+    getAllUsers()
   }, [])
 
   return (
     <Nav>
-      <UserList data={data} />
+      <UserList data={data} refetchUsers={getAllUsers} />
     </Nav>
   )
 }

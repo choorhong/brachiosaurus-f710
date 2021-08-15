@@ -9,3 +9,9 @@ export enum STATUS {
   ACTIVE = 'ACTIVE',
   SUSPENDED = 'SUSPENDED'
 }
+
+export interface SubmitValues {
+  id: string;
+  role: string;
+  status: string;
+}

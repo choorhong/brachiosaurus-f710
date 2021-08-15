@@ -1,10 +1,17 @@
-import React, { useMemo } from 'react'
-import { Table, Tag } from 'antd'
+import React, { useState, useMemo } from 'react'
+import { Button, Table, Tag } from 'antd'
 
-import { ROLE, STATUS } from '../types/user'
-import { Link } from 'react-router-dom'
+import { ROLE, SubmitValues, STATUS } from '../types/user'
+import UserModal from './UserModal'
 
-const UserList: React.FC<{data: any[]}> = ({ data }) => {
+interface IUserListProps {
+  data: any[],
+  refetchUsers: () => Promise<void>
+}
+
+const UserList: React.FC<IUserListProps> = ({ data, refetchUsers }) => {
+  const [values, setValues] = useState<SubmitValues | undefined>(undefined)
+
   const columns = useMemo(() => [
     {
       title: 'Email',
@@ -41,12 +48,22 @@ const UserList: React.FC<{data: any[]}> = ({ data }) => {
     {
       title: 'Action',
       key: 'action',
-      dataIndex: 'id',
-      render: (id: string) => <Link to={`/auth/${id}`}>Edit</Link>
+      render: (_: any, { id, role, status }: SubmitValues) => {
+        return (
+          <Button onClick={() => setValues({ id, role, status })} type='link' style={{ padding: 0 }}>
+            Edit
+          </Button>
+        )
+      }
     }
   ], [])
 
-  return <Table columns={columns} dataSource={data} rowKey={(data) => data.id} />
+  return (
+    <>
+      <Table columns={columns} dataSource={data} rowKey={(data) => data.id} />
+      {values && <UserModal initialValues={values} refetchUsers={refetchUsers} onClose={() => setValues(undefined)} />}
+    </>
+  )
 }
 
 export default UserList
