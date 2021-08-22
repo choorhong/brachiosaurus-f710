@@ -7,6 +7,7 @@ import moment from 'moment'
 import { BookingValues, SubmitValues } from '../types/booking'
 import { IFormProps } from '../types/shared'
 import InputSearch from '../_shared/InputSearch'
+import PlacesAutocomplete from '../_shared/PlacesAutocomplete'
 import axiosAuth from '../../axios'
 import { layout, tailLayout } from '../style/layout'
 
@@ -131,7 +132,7 @@ const BookingForm: React.FC<IFormProps<BookingValues>> = ({ initialValues, disab
               noStyle
               rules={[{ required: true, message: 'Location is required' }]}
             >
-              <Input style={{ width: '60%' }} placeholder='Input location' disabled={disabled} />
+              <PlacesAutocomplete style={{ width: '60%' }} />
             </Form.Item>
           </Input.Group>
         </Form.Item>
@@ -154,7 +155,7 @@ const BookingForm: React.FC<IFormProps<BookingValues>> = ({ initialValues, disab
               noStyle
               rules={[{ required: true, message: 'Location is required' }]}
             >
-              <Input style={{ width: '60%' }} placeholder='Input location' disabled={disabled} />
+              <PlacesAutocomplete style={{ width: '60%' }} />
             </Form.Item>
           </Input.Group>
         </Form.Item>

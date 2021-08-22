@@ -2,13 +2,15 @@ import React from 'react'
 import './App.css'
 import AuthContextProvider from './App/hooks/auth-context'
 import AppRouter from './App/routes'
+import GoogleMapsWrapper from './googleMapsWrapper'
 
 const App: React.FC = () => {
   return (
-    <AuthContextProvider>
-      <AppRouter />
-    </AuthContextProvider>
-
+    <GoogleMapsWrapper>
+      <AuthContextProvider>
+        <AppRouter />
+      </AuthContextProvider>
+    </GoogleMapsWrapper>
   )
 }
 
