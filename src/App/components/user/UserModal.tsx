@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Modal, Select } from 'antd'
+import { Form, Modal, Select } from 'antd'
 
 import axiosAuth from '../../axios'
 import { layout } from '../style/layout'

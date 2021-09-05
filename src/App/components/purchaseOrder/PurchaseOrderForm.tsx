@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Form, Input, Button, Select } from 'antd'
 
-import { ROLE } from '../types/contact'
+// import { ROLE } from '../types/contact'
 import { PurchaseOrderValues, STATUS, SubmitValues } from '../types/purchaseOrder'
 import { IFormProps } from '../types/shared'
 import InputSearch from '../_shared/InputSearch'

@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { Table, Tag } from 'antd'
 
 import { ROLE } from '../types/contact'
 
-const ContactList: React.FC<{data: any[]}> = ({ data }) => {
+const ContactList: React.FC<{data: Record<string, any>, current: string}> = ({ data, current }) => {
+  const history = useHistory()
+
   const columns = useMemo(() => [
     {
       title: 'Company Name',
@@ -34,7 +36,21 @@ const ContactList: React.FC<{data: any[]}> = ({ data }) => {
     }
   ], [])
 
-  return <Table columns={columns} dataSource={data} rowKey={(data) => data.id} />
+  return (
+    <Table
+      columns={columns}
+      dataSource={data.rows}
+      rowKey={(data) => data.id}
+      pagination={{
+        current: +current,
+        defaultCurrent: 1,
+        defaultPageSize: 10,
+        total: data.count,
+        simple: true,
+        onChange: (page) => history.push(`?page=${page}`)
+      }}
+    />
+  )
 }
 
 export default ContactList
