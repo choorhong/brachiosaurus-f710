@@ -2,20 +2,14 @@ import React, { useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Form, Input, Button, Select } from 'antd'
 
-// import { ROLE } from '../types/contact'
-import { PurchaseOrderValues, STATUS, SubmitValues } from '../types/purchaseOrder'
+import { PurchaseOrderValues, SubmitValues } from '../types/purchaseOrder'
 import { IFormProps } from '../types/shared'
 import InputSearch from '../_shared/InputSearch'
 import axiosAuth from '../../axios'
 import { layout, tailLayout } from '../style/layout'
+import { STATUS_OPTIONS } from './constants'
 
 const { Option } = Select
-
-const STATUS_OPTIONS = [
-  { label: 'Created', value: STATUS.CREATED },
-  { label: 'Fulfilled', value: STATUS.FULFILLED },
-  { label: 'Canceled', value: STATUS.CANCELED }
-]
 
 const PurchaseOrderForm: React.FC<IFormProps<PurchaseOrderValues>> = ({ initialValues, disabled }) => {
   const history = useHistory()

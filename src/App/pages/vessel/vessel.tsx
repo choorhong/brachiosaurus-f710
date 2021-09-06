@@ -24,7 +24,12 @@ const VesselPage: React.FC = (props) => {
 
   return (
     <Nav>
-      <SearchBar type='vessel' placeholder='Search by Vessel' />
+      <SearchBar
+        type='vessel'
+        SearchProps={{
+          placeholder: 'Search by Vessel'
+        }}
+      />
       <VesselList data={data} />
     </Nav>
   )

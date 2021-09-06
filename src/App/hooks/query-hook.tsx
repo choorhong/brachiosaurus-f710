@@ -7,6 +7,7 @@ export const useQuery = () => {
 
   return {
     search,
-    searchQuery
+    searchQuery,
+    stringify: queryString.stringify
   }
 }

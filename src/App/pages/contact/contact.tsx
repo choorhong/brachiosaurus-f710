@@ -29,7 +29,12 @@ const ContactPage: React.FC = (props) => {
 
   return (
     <Nav>
-      <SearchBar type='contact' placeholder='Search by Contact' />
+      <SearchBar
+        type='contact'
+        SearchProps={{
+          placeholder: 'Search by Contact'
+        }}
+      />
       <ContactList data={data} current={(searchQuery.page as string) ?? '1'} />
     </Nav>
   )

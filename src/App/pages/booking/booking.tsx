@@ -23,7 +23,12 @@ const BookingPage: React.FC = (props) => {
 
   return (
     <Nav>
-      <SearchBar type='booking' placeholder='Search by Booking' />
+      <SearchBar
+        type='booking'
+        SearchProps={{
+          placeholder: 'Search by Booking'
+        }}
+      />
       <BookingList data={data} />
     </Nav>
   )
