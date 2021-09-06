@@ -11,26 +11,24 @@ interface IFilterButtonProps {
   onSave: (values: any) => void;
 }
 
-const FilterButton: React.FC<IFilterButtonProps> = ({ onSave }) => {
-  const formItems = (
-    <>
-      <Form.Item name='vendor' label='Vendor'>
-        <InputSearch isContact placeholder='Search Vendor' />
-      </Form.Item>
-      <Form.Item name='status' label='Status'>
-        <Select allowClear placeholder='Select Status'>
-          {STATUS_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
-        </Select>
-      </Form.Item>
-    </>
-  )
+const formItems = (
+  <>
+    <Form.Item name='vendor' label='Vendor'>
+      <InputSearch isContact placeholder='Search Vendor' />
+    </Form.Item>
+    <Form.Item name='status' label='Status'>
+      <Select allowClear placeholder='Select Status'>
+        {STATUS_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
+      </Select>
+    </Form.Item>
+  </>
+)
 
-  return (
-    <FilterButtonBuilder
-      formItems={formItems}
-      onSave={onSave}
-    />
-  )
-}
+const FilterButton: React.FC<IFilterButtonProps> = ({ onSave }) => (
+  <FilterButtonBuilder
+    formItems={formItems}
+    onSave={onSave}
+  />
+)
 
 export default FilterButton
