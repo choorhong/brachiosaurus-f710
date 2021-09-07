@@ -3,13 +3,10 @@ import { Form, Select } from 'antd'
 
 import InputSearch from '../_shared/InputSearch'
 import FilterButtonBuilder from '../_shared/FilterButtonBuilder'
+import { FilterButtonProps } from '../types/filterButton'
 import { STATUS_OPTIONS } from './constants'
 
 const { Option } = Select
-
-interface IFilterButtonProps {
-  onSave: (values: any) => void;
-}
 
 const formItems = (
   <>
@@ -24,7 +21,7 @@ const formItems = (
   </>
 )
 
-const FilterButton: React.FC<IFilterButtonProps> = ({ onSave }) => (
+const FilterButton: React.FC<FilterButtonProps> = ({ onSave }) => (
   <FilterButtonBuilder
     formItems={formItems}
     onSave={onSave}
