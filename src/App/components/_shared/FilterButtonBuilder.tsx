@@ -5,16 +5,18 @@ import FilterOutlined from '@ant-design/icons/lib/icons/FilterOutlined'
 import { filterLayout } from '../style/layout'
 
 interface IFilterButtonBuilderProps {
+  cardStyle?: React.CSSProperties;
   formItems: React.ReactNode;
   onSave: (values: any) => void;
 }
 
 interface IFilterFormProps {
+  cardStyle?: React.CSSProperties;
   formItems: React.ReactNode;
   onSubmit: (values: any) => void;
 }
 
-const FilterForm: React.FC<IFilterFormProps> = ({ formItems, onSubmit }) => {
+const FilterForm: React.FC<IFilterFormProps> = ({ cardStyle, formItems, onSubmit }) => {
   const [form] = Form.useForm()
 
   return (
@@ -25,7 +27,7 @@ const FilterForm: React.FC<IFilterFormProps> = ({ formItems, onSubmit }) => {
           Save Filters
         </Button>
       )}
-      style={{ minWidth: 300 }}
+      style={{ ...cardStyle, minWidth: 300 }}
     >
       <Form
         {...filterLayout}
@@ -38,7 +40,7 @@ const FilterForm: React.FC<IFilterFormProps> = ({ formItems, onSubmit }) => {
   )
 }
 
-const FilterButtonBuilder: React.FC<IFilterButtonBuilderProps> = ({ formItems, onSave }) => {
+const FilterButtonBuilder: React.FC<IFilterButtonBuilderProps> = ({ cardStyle, formItems, onSave }) => {
   const [visible, setVisible] = useState<boolean>(false)
 
   const handleSubmit = useCallback((values: Record<string, any>) => {
@@ -49,7 +51,7 @@ const FilterButtonBuilder: React.FC<IFilterButtonBuilderProps> = ({ formItems, o
   return (
     <Dropdown
       onVisibleChange={setVisible}
-      overlay={<FilterForm formItems={formItems} onSubmit={handleSubmit} />}
+      overlay={<FilterForm cardStyle={cardStyle} formItems={formItems} onSubmit={handleSubmit} />}
       trigger={['click']}
       visible={visible}
     >
