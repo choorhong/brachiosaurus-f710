@@ -11,7 +11,7 @@ const { Search } = Input
 const SearchBar: React.FC<SearchBarProps> = (props) => {
   const history = useHistory()
 
-  const { type = 'shipment', placeholder = 'Search' } = props
+  const { advanceFilter, SearchProps, type = 'shipment' } = props
 
   const title = useMemo(() => {
     let label = `Add ${capitalize(type)}`
@@ -25,12 +25,12 @@ const SearchBar: React.FC<SearchBarProps> = (props) => {
 
   return (
     <span style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2%' }}>
-      <Search placeholder={placeholder} />
+      <Search {...SearchProps} />
+      {advanceFilter}
       <Tooltip title={title}>
         <Button icon={<PlusOutlined />} onClick={() => history.push(`/${type}/create`)} />
       </Tooltip>
     </span>
-
   )
 }
 

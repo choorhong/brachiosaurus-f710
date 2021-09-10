@@ -28,3 +28,28 @@ export const tailLayout = {
     }
   }
 }
+
+export const filterLayout = {
+  labelCol: {
+    sm: {
+      span: 12
+    },
+    md: {
+      span: 6
+    },
+    lg: {
+      span: 6
+    }
+  },
+  wrapperCol: {
+    sm: {
+      span: 12
+    },
+    md: {
+      span: 18
+    },
+    lg: {
+      span: 18
+    }
+  }
+}

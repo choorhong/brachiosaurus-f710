@@ -25,7 +25,12 @@ const ShipmentPage: React.FC = (props) => {
 
   return (
     <Nav>
-      <SearchBar type='shipment' placeholder='Search by Booking or Purchase Order' />
+      <SearchBar
+        type='shipment'
+        SearchProps={{
+          placeholder: 'Search by Booking or Purchase Order'
+        }}
+      />
       <ShipmentList data={data} />
     </Nav>
   )
