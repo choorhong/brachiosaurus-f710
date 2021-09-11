@@ -16,7 +16,7 @@ const BookingPage: React.FC = (props) => {
     (async () => {
       let url = '/booking'
       if (searchQuery.bookingId) {
-        url = `/booking/search${search}`
+        url = `/booking/find${search}`
       } else if (searchQuery.forwarder || searchQuery.cutOffStartDate || searchQuery.cutOffEndDate || searchQuery.departureLocation || searchQuery.arrivalLocation) {
         url = `/booking/find${search}`
       }
@@ -39,9 +39,9 @@ const BookingPage: React.FC = (props) => {
     <Nav>
       <SearchBar
         advanceFilter={<FilterButton onSave={handleFilterSave} />}
-        SearchProps={{
-          defaultValue: searchQuery.bookingId as string ?? '',
-          onSearch: (value: string) => history.push(`?bookingId=${value}`),
+        searchProps={{
+          defaultValue: searchQuery.bookingId || undefined,
+          onSearch: (value: string) => history.push(`?${stringify({ bookingId: value.trim() || undefined })}`),
           placeholder: 'Search by Booking'
         }}
         type='booking'

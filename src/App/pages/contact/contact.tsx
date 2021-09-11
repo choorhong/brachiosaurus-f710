@@ -31,7 +31,7 @@ const ContactPage: React.FC = (props) => {
     <Nav>
       <SearchBar
         type='contact'
-        SearchProps={{
+        searchProps={{
           placeholder: 'Search by Contact'
         }}
       />
