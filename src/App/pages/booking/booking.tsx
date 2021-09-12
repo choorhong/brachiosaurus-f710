@@ -15,11 +15,11 @@ const BookingPage: React.FC = (props) => {
   useEffect(() => {
     (async () => {
       let url = '/booking'
-      if (searchQuery.bookingId) {
-        url = `/booking/search${search}`
-      } else if (searchQuery.forwarder || searchQuery.cutOffStartDate || searchQuery.cutOffEndDate || searchQuery.departureLocation || searchQuery.arrivalLocation) {
-        url = `/booking/find${search}`
+
+      if (searchQuery.bookingId || searchQuery.forwarder || searchQuery.cutOffStartDate || searchQuery.cutOffEndDate || searchQuery.departureLocation || searchQuery.arrivalLocation) {
+        url = `/booking${search}`
       }
+
       try {
         const { data } = await axiosAuth.get(url)
         if (data) {
