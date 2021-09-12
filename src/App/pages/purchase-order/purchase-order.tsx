@@ -16,7 +16,7 @@ const PurchaseOrderPage: React.FC = (props) => {
     (async () => {
       let url = '/purchase-order'
 
-      if (searchQuery.purchaseOrderId || searchQuery.vendor || searchQuery.status) {
+      if (search) {
         url = `/purchase-order${search}`
       }
 
@@ -31,7 +31,7 @@ const PurchaseOrderPage: React.FC = (props) => {
         console.log('error', error)
       }
     })()
-  }, [search, searchQuery.purchaseOrderId, searchQuery.status, searchQuery.vendor])
+  }, [search])
 
   const handleFilterSave = useCallback((values: Record<string, string>) => history.push(`?${stringify(values)}`), [history, stringify])
 

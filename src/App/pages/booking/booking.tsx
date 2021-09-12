@@ -16,7 +16,7 @@ const BookingPage: React.FC = (props) => {
     (async () => {
       let url = '/booking'
 
-      if (searchQuery.bookingId || searchQuery.forwarder || searchQuery.cutOffStartDate || searchQuery.cutOffEndDate || searchQuery.departureLocation || searchQuery.arrivalLocation) {
+      if (search) {
         url = `/booking${search}`
       }
 
@@ -31,7 +31,7 @@ const BookingPage: React.FC = (props) => {
         console.log('error', error)
       }
     })()
-  }, [search, searchQuery.arrivalLocation, searchQuery.bookingId, searchQuery.cutOffEndDate, searchQuery.cutOffStartDate, searchQuery.departureLocation, searchQuery.forwarder])
+  }, [search])
 
   const handleFilterSave = useCallback((values: Record<string, string>) => history.push(`?${stringify(values)}`), [history, stringify])
 
