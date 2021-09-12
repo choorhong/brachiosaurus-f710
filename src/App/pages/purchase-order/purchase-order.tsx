@@ -15,11 +15,11 @@ const PurchaseOrderPage: React.FC = (props) => {
   useEffect(() => {
     (async () => {
       let url = '/purchase-order'
-      if (searchQuery.purchaseOrderId) {
-        url = `/purchase-order/search${search}`
-      } else if (searchQuery.vendor || searchQuery.status) {
-        url = `/purchase-order/find${search}`
+
+      if (searchQuery.purchaseOrderId || searchQuery.vendor || searchQuery.status) {
+        url = `/purchase-order${search}`
       }
+
       try {
         const { data } = await axiosAuth.get(url)
         if (data) {
