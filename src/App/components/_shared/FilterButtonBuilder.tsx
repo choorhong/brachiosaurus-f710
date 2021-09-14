@@ -1,22 +1,25 @@
 import React, { useCallback, useState } from 'react'
 import { Button, Card, Dropdown, Form } from 'antd'
+import { Store } from 'antd/lib/form/interface'
 import FilterOutlined from '@ant-design/icons/lib/icons/FilterOutlined'
 
 import { filterLayout } from '../style/layout'
 
-interface IFilterButtonBuilderProps {
+interface IFilterProps {
   cardStyle?: React.CSSProperties;
   formItems: React.ReactNode;
+  initialValues?: Store;
+}
+
+interface IFilterButtonBuilderProps extends IFilterProps {
   onSave: (values: any) => void;
 }
 
-interface IFilterFormProps {
-  cardStyle?: React.CSSProperties;
-  formItems: React.ReactNode;
+interface IFilterFormProps extends IFilterProps {
   onSubmit: (values: any) => void;
 }
 
-const FilterForm: React.FC<IFilterFormProps> = ({ cardStyle, formItems, onSubmit }) => {
+const FilterForm: React.FC<IFilterFormProps> = ({ cardStyle, formItems, initialValues, onSubmit }) => {
   const [form] = Form.useForm()
 
   return (
@@ -32,6 +35,7 @@ const FilterForm: React.FC<IFilterFormProps> = ({ cardStyle, formItems, onSubmit
       <Form
         {...filterLayout}
         form={form}
+        initialValues={initialValues}
         onFinish={onSubmit}
       >
         {formItems}
@@ -40,7 +44,7 @@ const FilterForm: React.FC<IFilterFormProps> = ({ cardStyle, formItems, onSubmit
   )
 }
 
-const FilterButtonBuilder: React.FC<IFilterButtonBuilderProps> = ({ cardStyle, formItems, onSave }) => {
+const FilterButtonBuilder: React.FC<IFilterButtonBuilderProps> = ({ onSave, ...others }) => {
   const [visible, setVisible] = useState<boolean>(false)
 
   const handleSubmit = useCallback((values: Record<string, any>) => {
@@ -51,7 +55,7 @@ const FilterButtonBuilder: React.FC<IFilterButtonBuilderProps> = ({ cardStyle, f
   return (
     <Dropdown
       onVisibleChange={setVisible}
-      overlay={<FilterForm cardStyle={cardStyle} formItems={formItems} onSubmit={handleSubmit} />}
+      overlay={<FilterForm {...others} onSubmit={handleSubmit} />}
       trigger={['click']}
       visible={visible}
     >
