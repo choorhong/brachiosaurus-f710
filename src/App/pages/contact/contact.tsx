@@ -37,7 +37,7 @@ const ContactPage: React.FC = (props) => {
   return (
     <Nav>
       <SearchBar
-        advanceFilter={<FilterButton onSave={handleFilterSave} />}
+        advanceFilter={<FilterButton initialValues={searchQuery} onSave={handleFilterSave} />}
         SearchProps={{
           defaultValue: searchQuery.name as string ?? '',
           onSearch: (value: string) => history.push(`?name=${value}`),
