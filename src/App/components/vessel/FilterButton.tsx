@@ -22,11 +22,11 @@ const formItems = (
   </>
 )
 
-const FilterButton: React.FC<FilterButtonProps> = ({ onSave }) => (
+const FilterButton: React.FC<FilterButtonProps> = props => (
   <FilterButtonBuilder
     cardStyle={{ width: 600 }}
     formItems={formItems}
-    onSave={onSave}
+    {...props}
   />
 )
 

@@ -1,16 +1,22 @@
-import React, { useEffect, useCallback, useState } from 'react'
+import React, { useEffect, useCallback, useState, useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
+import moment from 'moment'
 
 import Nav from '../../layout/Nav'
 import SearchBar from '../../components/_shared/SearchBar'
 import { VesselList, FilterButton } from '../../components/vessel'
 import axiosAuth from '../../axios'
 import { useQuery } from '../../hooks/query-hook'
+import { weekEnd, weekStart } from '../../utils/dates'
 
 const VesselPage: React.FC = (props) => {
   const history = useHistory()
-  const { search, searchQuery, stringify } = useQuery()
+  const { search, searchQuery: { cutOffStartDate, cutOffEndDate, name }, stringify } = useQuery()
   const [data, setData] = useState<any[]>([])
+
+  const initialValues = useMemo(() => cutOffStartDate && cutOffEndDate
+    ? { cutOffStartDate: moment(cutOffStartDate), cutOffEndDate: moment(cutOffEndDate) }
+    : { cutOffStartDate: weekStart, cutOffEndDate: weekEnd }, [cutOffEndDate, cutOffStartDate])
 
   useEffect(() => {
     (async () => {
@@ -37,9 +43,9 @@ const VesselPage: React.FC = (props) => {
   return (
     <Nav>
       <SearchBar
-        advanceFilter={<FilterButton onSave={handleFilterSave} />}
+        advanceFilter={<FilterButton initialValues={initialValues} onSave={handleFilterSave} />}
         SearchProps={{
-          defaultValue: searchQuery.name as string ?? '',
+          defaultValue: name as string ?? '',
           onSearch: (value: string) => history.push(`?name=${value}`),
           placeholder: 'Search by Vessel'
         }}
