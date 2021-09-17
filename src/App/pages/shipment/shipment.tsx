@@ -37,7 +37,7 @@ const ShipmentPage: React.FC = (props) => {
   return (
     <Nav>
       <SearchBar
-        advanceFilter={<FilterButton onSave={handleFilterSave} />}
+        advanceFilter={<FilterButton initialValues={searchQuery} onSave={handleFilterSave} />}
         SearchProps={{
           defaultValue: searchQuery.bookingId as string ?? '',
           onSearch: (value: string) => history.push(`?bookingId=${value}`),
