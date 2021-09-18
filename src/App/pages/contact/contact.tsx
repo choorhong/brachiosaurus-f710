@@ -1,20 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+
 import Nav from '../../layout/Nav'
-import { ContactList } from '../../components/contact'
+import { ContactList, FilterButton } from '../../components/contact'
 import SearchBar from '../../components/_shared/SearchBar'
 import axiosAuth from '../../axios'
 import { useQuery } from '../../hooks/query-hook'
 
 const ContactPage: React.FC = (props) => {
+  const history = useHistory()
+  const { search, searchQuery, stringify } = useQuery()
   const [data, setData] = useState<Record<string, any>>({ rows: [] })
-  const { searchQuery } = useQuery()
   // what if user type or change the page to 0 or -1 ? Like: /contact?page=0 or /contact?page=-1?
   useEffect(() => {
     (async () => {
       let url = '/contact'
-      if (searchQuery.page) {
-        url = `/contact?page=${searchQuery.page}`
+
+      if (search) {
+        url = `/contact${search}`
       }
+
       try {
         const contacts = await axiosAuth.get(url)
         if (contacts && contacts.data) {
@@ -25,13 +30,18 @@ const ContactPage: React.FC = (props) => {
       }
     }
     )()
-  }, [searchQuery.page])
+  }, [search])
+
+  const handleFilterSave = useCallback((values: Record<string, string>) => history.push(`?${stringify(values)}`), [history, stringify])
 
   return (
     <Nav>
       <SearchBar
         type='contact'
+        advanceFilter={<FilterButton initialValues={searchQuery} onSave={handleFilterSave} />}
         searchProps={{
+          defaultValue: searchQuery.name as string ?? '',
+          onSearch: (value: string) => history.push(`?name=${value}`),
           placeholder: 'Search by Contact'
         }}
       />

@@ -15,11 +15,11 @@ const PurchaseOrderPage: React.FC = (props) => {
   useEffect(() => {
     (async () => {
       let url = '/purchase-order'
-      if (searchQuery.purchaseOrderId) {
-        url = `/purchase-order/search${search}`
-      } else if (searchQuery.vendor || searchQuery.status) {
-        url = `/purchase-order/find${search}`
+
+      if (search) {
+        url = `/purchase-order${search}`
       }
+
       try {
         const { data } = await axiosAuth.get(url)
         if (data) {
@@ -31,20 +31,20 @@ const PurchaseOrderPage: React.FC = (props) => {
         console.log('error', error)
       }
     })()
-  }, [search, searchQuery.purchaseOrderId, searchQuery.status, searchQuery.vendor])
+  }, [search])
 
   const handleFilterSave = useCallback((values: Record<string, string>) => history.push(`?${stringify(values)}`), [history, stringify])
 
   return (
     <Nav>
       <SearchBar
-        advanceFilter={<FilterButton onSave={handleFilterSave} />}
+        type='purchase-order'
+        advanceFilter={<FilterButton initialValues={searchQuery} onSave={handleFilterSave} />}
         searchProps={{
-          defaultValue: searchQuery.purchaseOrderId as string ?? '',
+          defaultValue: searchQuery.purchaseOrderId || undefined,
           onSearch: (value: string) => history.push(`?purchaseOrderId=${value}`),
           placeholder: 'Search by Purchase Order'
         }}
-        type='purchase-order'
       />
       <PurchaseOrderList data={data} />
     </Nav>

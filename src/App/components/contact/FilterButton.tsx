@@ -1,21 +1,20 @@
 import React from 'react'
 import { Form, Select } from 'antd'
 
-import InputSearch from '../_shared/InputSearch'
 import FilterButtonBuilder from '../_shared/FilterButtonBuilder'
 import { FilterButtonProps } from '../types/filterButton'
-import { STATUS_OPTIONS } from './constants'
+import { ROLE_OPTIONS } from './constants'
 
 const { Option } = Select
 
 const formItems = (
   <>
-    <Form.Item name='vendor' label='Vendor'>
-      <InputSearch isContact placeholder='Search Vendor' />
-    </Form.Item>
-    <Form.Item name='status' label='Status'>
-      <Select allowClear placeholder='Select Status'>
-        {STATUS_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
+    <Form.Item
+      name='role'
+      label='Role'
+    >
+      <Select allowClear placeholder='Select Role'>
+        {ROLE_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
       </Select>
     </Form.Item>
   </>

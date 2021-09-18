@@ -13,6 +13,9 @@ const formItems = (
     <Form.Item name='vendor' label='Vendor'>
       <InputSearch isContact placeholder='Search Vendor' />
     </Form.Item>
+    <Form.Item name='bookingId' label='Booking'>
+      <InputSearch isBooking placeholder='Search Booking' />
+    </Form.Item>
     <Form.Item name='status' label='Status'>
       <Select allowClear placeholder='Select Status'>
         {STATUS_OPTIONS.map(option => (<Option key={option.value} value={option.value}>{option.label}</Option>))}
