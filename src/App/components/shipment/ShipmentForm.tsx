@@ -7,17 +7,9 @@ import InputSearch from '../_shared/InputSearch'
 import axiosAuth from '../../axios'
 import { useHistory } from 'react-router-dom'
 import { layout, tailLayout } from '../style/layout'
+import { STATUS_OPTIONS } from './constants'
 
 const { Option } = Select
-
-const STATUS_OPTIONS = [
-  { label: 'Created', value: STATUS.CREATED },
-  { label: 'Scheduled', value: STATUS.SCHEDULED },
-  { label: 'Shipped', value: STATUS.SHIPPED },
-  { label: 'Fulfilled', value: STATUS.FULFILLED },
-  { label: 'Paid', value: STATUS.PAID },
-  { label: 'Canceled', value: STATUS.CANCELED }
-]
 
 const ShipmentForm: React.FC<IFormProps<ShipmentValues>> = ({ initialValues, disabled }) => {
   const history = useHistory()

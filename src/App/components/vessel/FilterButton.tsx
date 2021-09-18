@@ -2,30 +2,10 @@ import React from 'react'
 import { DatePicker, Form } from 'antd'
 
 import FilterButtonBuilder from '../_shared/FilterButtonBuilder'
-import InputSearch from '../_shared/InputSearch'
-import PlacesAutocomplete from '../_shared/PlacesAutocomplete'
 import { FilterButtonProps } from '../types/filterButton'
 
 const formItems = (
   <>
-    <Form.Item
-      name='forwarder'
-      label='Forwarder'
-    >
-      <InputSearch isContact placeholder='Search Forwarder' />
-    </Form.Item>
-    <Form.Item
-      name='departureLocation'
-      label='Departure Location'
-    >
-      <PlacesAutocomplete />
-    </Form.Item>
-    <Form.Item
-      name='arrivalLocation'
-      label='Arrival Location'
-    >
-      <PlacesAutocomplete />
-    </Form.Item>
     <Form.Item
       name='cutOffStartDate'
       label='Cut Off Start Date'

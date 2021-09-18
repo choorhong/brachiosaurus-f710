@@ -6,15 +6,9 @@ import { ROLE, SubmitValues } from '../types/contact'
 import { IFormProps } from '../types/shared'
 import axiosAuth from '../../axios'
 import { layout, tailLayout } from '../style/layout'
+import { ROLE_OPTIONS } from './constants'
 
 const { Option } = Select
-
-const ROLE_OPTIONS = [
-  { label: 'Forwarder', value: ROLE.FORWARDER },
-  { label: 'Logistics', value: ROLE.LOGISTICS },
-  { label: 'Purchaser', value: ROLE.PURCHASER },
-  { label: 'Vendor', value: ROLE.VENDOR }
-]
 
 const ContactForm: React.FC<IFormProps<SubmitValues>> = ({ initialValues, disabled }) => {
   const history = useHistory()
