@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { Table, Tag } from 'antd'
 
 import { STATUS } from '../types/purchaseOrder'
 
-const PurchaseOrderList: React.FC<{data: any[]}> = ({ data }) => {
+const PurchaseOrderList: React.FC<{data: Record<string, any>, current: string}> = ({ data, current }) => {
+  const history = useHistory()
+
   const columns = useMemo(() => [
     {
       title: 'Purchase Order',
@@ -37,7 +39,21 @@ const PurchaseOrderList: React.FC<{data: any[]}> = ({ data }) => {
     }
   ], [])
 
-  return <Table columns={columns} dataSource={data} rowKey={(data) => data.id} />
+  return (
+    <Table
+      columns={columns}
+      dataSource={data.rows}
+      rowKey={(data) => data.id}
+      pagination={{
+        current: +current,
+        defaultCurrent: 1,
+        defaultPageSize: 10,
+        total: data.count,
+        simple: true,
+        onChange: (page) => history.push(`?page=${page}`)
+      }}
+    />
+  )
 }
 
 export default PurchaseOrderList

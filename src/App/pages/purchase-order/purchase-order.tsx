@@ -10,7 +10,7 @@ import { useQuery } from '../../hooks/query-hook'
 const PurchaseOrderPage: React.FC = (props) => {
   const history = useHistory()
   const { search, searchQuery, stringify } = useQuery()
-  const [data, setData] = useState<any[]>([])
+  const [data, setData] = useState<Record<string, any>>({ rows: [] })
 
   useEffect(() => {
     (async () => {
@@ -46,7 +46,7 @@ const PurchaseOrderPage: React.FC = (props) => {
           placeholder: 'Search by Purchase Order'
         }}
       />
-      <PurchaseOrderList data={data} />
+      <PurchaseOrderList data={data} current={(searchQuery.page as string) ?? '1'} />
     </Nav>
   )
 }
