@@ -42,7 +42,7 @@ const PurchaseOrderPage: React.FC = (props) => {
         advanceFilter={<FilterButton initialValues={searchQuery} onSave={handleFilterSave} />}
         searchProps={{
           defaultValue: searchQuery.purchaseOrderId || undefined,
-          onSearch: (value: string) => history.push(`?purchaseOrderId=${value}`),
+          onSearch: (value: string) => history.push(`?${stringify({ purchaseOrderId: value.trim() || undefined })}`),
           placeholder: 'Search by Purchase Order'
         }}
       />

@@ -46,8 +46,8 @@ const VesselPage: React.FC = (props) => {
         type='vessel'
         advanceFilter={<FilterButton initialValues={initialValues} onSave={handleFilterSave} />}
         searchProps={{
-          defaultValue: name as string ?? '',
-          onSearch: (value: string) => history.push(`?name=${value}`),
+          defaultValue: name || undefined,
+          onSearch: (value: string) => history.push(`?${stringify({ name: value.trim() || undefined })}`),
           placeholder: 'Search by Vessel'
         }}
       />

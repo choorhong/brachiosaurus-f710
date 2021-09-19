@@ -40,9 +40,9 @@ const ShipmentPage: React.FC = (props) => {
         type='shipment'
         advanceFilter={<FilterButton initialValues={searchQuery} onSave={handleFilterSave} />}
         searchProps={{
-          defaultValue: searchQuery.bookingId as string ?? '',
-          onSearch: (value: string) => history.push(`?bookingId=${value}`),
-          placeholder: 'Search by Booking or Purchase Order'
+          defaultValue: searchQuery.container || undefined,
+          onSearch: (value: string) => history.push(`?${stringify({ container: value.trim() || undefined })}`),
+          placeholder: 'Search by Container No.'
         }}
       />
       <ShipmentList data={data} />

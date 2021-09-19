@@ -40,8 +40,8 @@ const ContactPage: React.FC = (props) => {
         type='contact'
         advanceFilter={<FilterButton initialValues={searchQuery} onSave={handleFilterSave} />}
         searchProps={{
-          defaultValue: searchQuery.name as string ?? '',
-          onSearch: (value: string) => history.push(`?name=${value}`),
+          defaultValue: searchQuery.name || undefined,
+          onSearch: (value: string) => history.push(`?${stringify({ name: value.trim() || undefined })}`),
           placeholder: 'Search by Contact'
         }}
       />
