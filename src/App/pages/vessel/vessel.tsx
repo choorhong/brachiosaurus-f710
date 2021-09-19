@@ -11,8 +11,9 @@ import { weekEnd, weekStart } from '../../utils/dates'
 
 const VesselPage: React.FC = (props) => {
   const history = useHistory()
-  const { search, searchQuery: { cutOffStartDate, cutOffEndDate, name }, stringify } = useQuery()
-  const [data, setData] = useState<any[]>([])
+  const { search, searchQuery, stringify } = useQuery()
+  const [data, setData] = useState<Record<string, any>>({ rows: [] })
+  const { cutOffStartDate, cutOffEndDate, name } = searchQuery
 
   const initialValues = useMemo(() => cutOffStartDate && cutOffEndDate
     ? { cutOffStartDate: moment(cutOffStartDate), cutOffEndDate: moment(cutOffEndDate) }
@@ -29,6 +30,7 @@ const VesselPage: React.FC = (props) => {
       try {
         const { data } = await axiosAuth.get(url)
         if (data) {
+          // console.log('vessel', data)
           setData(data)
         }
       } catch (error) {
@@ -51,7 +53,7 @@ const VesselPage: React.FC = (props) => {
           placeholder: 'Search by Vessel'
         }}
       />
-      <VesselList data={data} />
+      <VesselList data={data} current={(searchQuery.page as string) ?? '1'} />
     </Nav>
   )
 }
