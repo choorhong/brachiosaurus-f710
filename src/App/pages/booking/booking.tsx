@@ -39,9 +39,7 @@ const BookingPage: React.FC = (props) => {
     })()
   }, [search])
 
-  const handleFilterSave = useCallback((values: Record<string, string>) => {
-    history.push(`?${stringify(values, { skipNull: true, skipEmptyString: true })}`)
-  }, [history, stringify])
+  const handleFilterSave = useCallback((values: Record<string, string>) => history.push(`?${stringify(values)}`), [history, stringify])
 
   return (
     <Nav>

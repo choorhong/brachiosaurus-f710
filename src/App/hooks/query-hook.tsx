@@ -9,6 +9,6 @@ export const useQuery = () => {
   return {
     search,
     searchQuery,
-    stringify: queryString.stringify
+    stringify: (obj: Record<string, any>) => queryString.stringify(obj, { skipNull: true, skipEmptyString: true })
   }
 }
