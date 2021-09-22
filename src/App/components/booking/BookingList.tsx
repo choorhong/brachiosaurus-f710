@@ -4,7 +4,7 @@ import moment from 'moment'
 
 import { Link } from 'react-router-dom'
 
-const BookingList: React.FC<{data: any[]}> = ({ data }) => {
+const BookingList: React.FC<{ data: any[] }> = ({ data }) => {
   const columns = useMemo(() => [
     {
       title: 'Booking',

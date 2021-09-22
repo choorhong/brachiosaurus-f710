@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import moment from 'moment'
 // import { data } from '../../mock/shipment'
 
-const ShipmentList: React.FC<{data: any[]}> = ({ data }) => {
+const ShipmentList: React.FC<{ data: any[] }> = ({ data }) => {
   const columns = useMemo(() => [
     {
       title: 'Id',
@@ -36,9 +36,11 @@ const ShipmentList: React.FC<{data: any[]}> = ({ data }) => {
           <Tag color='purple'>
             <Link to={`/booking/${data.booking.id}`} target='_blank'>{data.booking.bookingId}</Link>
           </Tag>
+          <br />
           <Tag color='cyan'>
             <Link to={`/vessel/${data.booking.vessel.id}`} target='_blank'>{data.booking.vessel.name}</Link>
           </Tag>
+          <br />
           <Tag color='green'>
             {moment(data.booking.vessel.earliestReturningDate).format('YYYY-MM-DD')}
           </Tag>

@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { Table } from 'antd'
 import moment from 'moment'
 
-const VesselList: React.FC<{data: Record<string, any>, current: string}> = ({ data, current }) => {
+const VesselList: React.FC<{ data: Record<string, any>, current: string }> = ({ data, current }) => {
   const history = useHistory()
 
   const columns = useMemo(() => [

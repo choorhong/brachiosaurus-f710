@@ -4,7 +4,7 @@ import { Table, Tag } from 'antd'
 
 import { STATUS } from '../types/purchaseOrder'
 
-const PurchaseOrderList: React.FC<{data: Record<string, any>, current: string}> = ({ data, current }) => {
+const PurchaseOrderList: React.FC<{ data: Record<string, any>, current: string }> = ({ data, current }) => {
   const history = useHistory()
 
   const columns = useMemo(() => [

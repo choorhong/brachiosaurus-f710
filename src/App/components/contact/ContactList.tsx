@@ -4,7 +4,7 @@ import { Table, Tag } from 'antd'
 
 import { ROLE } from '../types/contact'
 
-const ContactList: React.FC<{data: Record<string, any>, current: string}> = ({ data, current }) => {
+const ContactList: React.FC<{ data: Record<string, any>, current: string }> = ({ data, current }) => {
   const history = useHistory()
 
   const columns = useMemo(() => [
