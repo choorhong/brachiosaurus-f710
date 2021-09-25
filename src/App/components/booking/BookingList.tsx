@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import { Tag, Table } from 'antd'
 import moment from 'moment'
 
-import { Link } from 'react-router-dom'
+import { IListProps } from '../types/shared'
 
-const BookingList: React.FC<{ data: any[] }> = ({ data }) => {
+const BookingList: React.FC<IListProps> = ({ data, current, onPaginationChange }) => {
   const columns = useMemo(() => [
     {
       title: 'Booking',
@@ -76,7 +77,21 @@ const BookingList: React.FC<{ data: any[] }> = ({ data }) => {
     }
   ], [])
 
-  return <Table columns={columns} dataSource={data} rowKey={(data) => data.id} />
+  return (
+    <Table
+      columns={columns}
+      dataSource={data.rows}
+      rowKey={(data) => data.id}
+      pagination={{
+        current: +current,
+        defaultCurrent: 1,
+        defaultPageSize: 10,
+        total: data.count,
+        simple: true,
+        onChange: onPaginationChange
+      }}
+    />
+  )
 }
 
 export default BookingList
