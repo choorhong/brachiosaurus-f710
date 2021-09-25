@@ -33,6 +33,7 @@ const ShipmentPage: React.FC = (props) => {
   }, [search])
 
   const handleFilterSave = useCallback((values: Record<string, string>) => history.push(`?${stringify(values)}`), [history, stringify])
+  const handlePaginationChange = useCallback((page: number) => history.push(`?${stringify({ ...searchQuery, page })}`), [history, searchQuery, stringify])
 
   return (
     <Nav>
@@ -45,7 +46,7 @@ const ShipmentPage: React.FC = (props) => {
           placeholder: 'Search by Container No.'
         }}
       />
-      <ShipmentList data={data} />
+      <ShipmentList data={data} current={(searchQuery.page as string) ?? '1'} onPaginationChange={handlePaginationChange} />
     </Nav>
   )
 }
