@@ -34,6 +34,7 @@ const PurchaseOrderPage: React.FC = (props) => {
   }, [search])
 
   const handleFilterSave = useCallback((values: Record<string, string>) => history.push(`?${stringify(values)}`), [history, stringify])
+  const handlePaginationChange = useCallback((page: number) => history.push(`?${stringify({ ...searchQuery, page })}`), [history, searchQuery, stringify])
 
   return (
     <Nav>
@@ -46,7 +47,7 @@ const PurchaseOrderPage: React.FC = (props) => {
           placeholder: 'Search by Purchase Order'
         }}
       />
-      <PurchaseOrderList data={data} current={(searchQuery.page as string) ?? '1'} />
+      <PurchaseOrderList data={data} current={(searchQuery.page as string) ?? '1'} onPaginationChange={handlePaginationChange} />
     </Nav>
   )
 }
