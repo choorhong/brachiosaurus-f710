@@ -41,6 +41,7 @@ const VesselPage: React.FC = (props) => {
   }, [search])
 
   const handleFilterSave = useCallback((values: Record<string, string>) => history.push(`?${stringify(values)}`), [history, stringify])
+  const handlePaginationChange = useCallback((page: number) => history.push(`?${stringify({ ...searchQuery, page })}`), [history, searchQuery, stringify])
 
   return (
     <Nav>
@@ -53,7 +54,7 @@ const VesselPage: React.FC = (props) => {
           placeholder: 'Search by Vessel'
         }}
       />
-      <VesselList data={data} current={(searchQuery.page as string) ?? '1'} />
+      <VesselList data={data} current={(searchQuery.page as string) ?? '1'} onPaginationChange={handlePaginationChange} />
     </Nav>
   )
 }
