@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Table, Tag } from 'antd'
 
 import { ROLE } from '../types/contact'
+import { IListProps } from '../types/shared'
 
-const ContactList: React.FC<{ data: Record<string, any>, current: string }> = ({ data, current }) => {
-  const history = useHistory()
-
+const ContactList: React.FC<IListProps> = ({ data, current, onPaginationChange }) => {
   const columns = useMemo(() => [
     {
       title: 'Company Name',
@@ -47,7 +46,7 @@ const ContactList: React.FC<{ data: Record<string, any>, current: string }> = ({
         defaultPageSize: 10,
         total: data.count,
         simple: true,
-        onChange: (page) => history.push(`?page=${page}`)
+        onChange: onPaginationChange
       }}
     />
   )

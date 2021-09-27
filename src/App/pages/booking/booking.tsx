@@ -40,6 +40,7 @@ const BookingPage: React.FC = (props) => {
   }, [search])
 
   const handleFilterSave = useCallback((values: Record<string, string>) => history.push(`?${stringify(values)}`), [history, stringify])
+  const handlePaginationChange = useCallback((page: number) => history.push(`?${stringify({ ...searchQuery, page })}`), [history, searchQuery, stringify])
 
   return (
     <Nav>
@@ -52,7 +53,7 @@ const BookingPage: React.FC = (props) => {
         }}
         type='booking'
       />
-      <BookingList data={data} />
+      <BookingList data={data} current={(searchQuery.page as string) ?? '1'} onPaginationChange={handlePaginationChange} />
     </Nav>
   )
 }

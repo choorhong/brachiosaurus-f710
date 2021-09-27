@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Table } from 'antd'
 import moment from 'moment'
 
-const VesselList: React.FC<{ data: Record<string, any>, current: string }> = ({ data, current }) => {
-  const history = useHistory()
+import { IListProps } from '../types/shared'
 
+const VesselList: React.FC<IListProps> = ({ data, current, onPaginationChange }) => {
   const columns = useMemo(() => [
     {
       title: 'Vessel Name',
@@ -38,7 +38,7 @@ const VesselList: React.FC<{ data: Record<string, any>, current: string }> = ({ 
         defaultPageSize: 10,
         total: data.count,
         simple: true,
-        onChange: (page) => history.push(`?page=${page}`)
+        onChange: onPaginationChange
       }}
     />
   )

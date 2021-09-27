@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Table, Tag } from 'antd'
 
 import { STATUS } from '../types/purchaseOrder'
+import { IListProps } from '../types/shared'
 
-const PurchaseOrderList: React.FC<{ data: Record<string, any>, current: string }> = ({ data, current }) => {
-  const history = useHistory()
-
+const PurchaseOrderList: React.FC<IListProps> = ({ data, current, onPaginationChange }) => {
   const columns = useMemo(() => [
     {
       title: 'Purchase Order',
@@ -50,7 +49,7 @@ const PurchaseOrderList: React.FC<{ data: Record<string, any>, current: string }
         defaultPageSize: 10,
         total: data.count,
         simple: true,
-        onChange: (page) => history.push(`?page=${page}`)
+        onChange: onPaginationChange
       }}
     />
   )

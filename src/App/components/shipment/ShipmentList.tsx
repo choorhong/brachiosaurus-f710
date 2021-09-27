@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react'
-import { Table, Tag } from 'antd'
-
-import { STATUS } from '../types/shipment'
 import { Link } from 'react-router-dom'
+import { Table, Tag } from 'antd'
 import moment from 'moment'
-// import { data } from '../../mock/shipment'
 
-const ShipmentList: React.FC<{ data: any[] }> = ({ data }) => {
+import { IListProps } from '../types/shared'
+import { STATUS } from '../types/shipment'
+
+const ShipmentList: React.FC<IListProps> = ({ data, current, onPaginationChange }) => {
   const columns = useMemo(() => [
     {
       title: 'Id',
@@ -110,7 +110,21 @@ const ShipmentList: React.FC<{ data: any[] }> = ({ data }) => {
   //   setValues(null)
   // }
 
-  return <Table columns={columns} dataSource={data} rowKey={(data) => data.id} />
+  return (
+    <Table
+      columns={columns}
+      dataSource={data.rows}
+      rowKey={(data) => data.id}
+      pagination={{
+        current: +current,
+        defaultCurrent: 1,
+        defaultPageSize: 10,
+        total: data.count,
+        simple: true,
+        onChange: onPaginationChange
+      }}
+    />
+  )
 }
 
 export default ShipmentList
