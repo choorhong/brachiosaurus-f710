@@ -10,7 +10,7 @@ import { useQuery } from '../../hooks/query-hook'
 const ShipmentPage: React.FC = (props) => {
   const history = useHistory()
   const { search, searchQuery, stringify } = useQuery()
-  const [data, setData] = useState<any[]>([])
+  const [data, setData] = useState<Record<string, any>>({ rows: [] })
 
   useEffect(() => {
     (async () => {

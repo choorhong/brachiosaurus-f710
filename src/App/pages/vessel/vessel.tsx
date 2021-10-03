@@ -30,7 +30,6 @@ const VesselPage: React.FC = (props) => {
       try {
         const { data } = await axiosAuth.get(url)
         if (data) {
-          // console.log('vessel', data)
           setData(data)
         }
       } catch (error) {

@@ -12,7 +12,7 @@ import { weekEnd, weekStart } from '../../utils/dates'
 const BookingPage: React.FC = (props) => {
   const history = useHistory()
   const { search, searchQuery, stringify } = useQuery()
-  const [data, setData] = useState<any[]>([])
+  const [data, setData] = useState<Record<string, any>>({ rows: [] })
 
   const initialValues = useMemo(() => searchQuery.cutOffStartDate && searchQuery.cutOffEndDate
     ? { ...searchQuery, cutOffStartDate: moment(searchQuery.cutOffStartDate), cutOffEndDate: moment(searchQuery.cutOffEndDate) }
