@@ -59,7 +59,7 @@ const FilterButtonBuilder: React.FC<IFilterButtonBuilderProps> = ({ onSave, ...o
       trigger={['click']}
       visible={visible}
     >
-      <Button icon={<FilterOutlined />}>Advanced Filter</Button>
+      <Button icon={<FilterOutlined />} style={{ width: '100%' }}>Advanced Filter</Button>
     </Dropdown>
   )
 }
